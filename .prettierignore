@@ -1,0 +1,8 @@
+node_modules
+.next
+coverage
+playwright-report
+test-results
+src/content/*.generated.ts
+3month_dsa_system_design_plan.html
+java_dsa_reference.html

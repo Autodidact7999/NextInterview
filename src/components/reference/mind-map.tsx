@@ -105,6 +105,11 @@ export function MindMap() {
                 <h3 className="section-title">{selectedNodeId}</h3>
               </div>
               <p className="section-copy">{detail.desc}</p>
+              {detail.whyItWorks ? (
+                <p className="section-copy">
+                  <strong>Why it works:</strong> {detail.whyItWorks}
+                </p>
+              ) : null}
               <div className="notice">
                 <strong>When:</strong> {detail.when}
               </div>

@@ -13,6 +13,10 @@
   --surface-elevated: #ffffff;
   --surface-muted: #f5f5f5;
   --surface-code: #1a1a2e;
+  --surface-overlay: rgba(255, 255, 255, 0.45);
+  --surface-overlay-strong: rgba(255, 255, 255, 0.85);
+  --surface-wash: rgba(245, 245, 245, 0.55);
+  --accent-wash: rgba(240, 240, 255, 0.5);
 
   /* Text */
   --text-primary: #111111;
@@ -29,21 +33,21 @@
 
   /* Accent colors */
   --purple: #5b5bd6;
-  --purple-bg: #f0f0ff;
-  --purple-text: #3e3ea6;
+  --purple-bg: #f2f2ff;
+  --purple-text: #4040a8;
   --green: #1a7f5a;
-  --green-bg: #e6f7f0;
+  --green-bg: #edf8f4;
   --green-text: #15664a;
   --coral: #cd4a2a;
-  --coral-bg: #fef0ec;
+  --coral-bg: #fef2ee;
   --coral-text: #a03820;
-  --blue-bg: #edf4fc;
+  --blue-bg: #eef5fc;
   --blue-text: #1a5fa5;
-  --amber-bg: #fef6e6;
+  --amber-bg: #fef7e8;
   --amber-text: #7a4d0b;
-  --lime-bg: #eef6e3;
+  --lime-bg: #f0f7e6;
   --lime-text: #3b6d11;
-  --red-bg: #fef0f0;
+  --red-bg: #fef1f1;
   --red-text: #a02d2d;
 
   /* Radii — tight and intentional */
@@ -62,15 +66,35 @@
     --bg-canvas-strong: #161616;
     --surface: #1a1a1a;
     --surface-elevated: #1e1e1e;
-    --surface-muted: #252525;
+    --surface-muted: #232323;
     --surface-code: #0d0d14;
-    --text-primary: #ececec;
-    --text-secondary: #a0a0a0;
-    --text-tertiary: #666666;
-    --border-subtle: #2a2a2a;
-    --border-strong: #3a3a3a;
-    --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.2);
-    --shadow-strong: 0 4px 16px rgba(0, 0, 0, 0.3);
+    --surface-overlay: rgba(36, 36, 36, 0.78);
+    --surface-overlay-strong: rgba(28, 28, 28, 0.92);
+    --surface-wash: rgba(44, 44, 44, 0.65);
+    --accent-wash: rgba(91, 91, 214, 0.08);
+    --text-primary: #e8e8e8;
+    --text-secondary: #9a9a9a;
+    --text-tertiary: #606060;
+    --border-subtle: #282828;
+    --border-strong: #383838;
+    --shadow-soft: 0 1px 3px rgba(0, 0, 0, 0.25);
+    --shadow-strong: 0 4px 16px rgba(0, 0, 0, 0.35);
+
+    /* Accent backgrounds — muted for dark mode */
+    --purple-bg: rgba(91, 91, 214, 0.14);
+    --purple-text: #9090e0;
+    --green-bg: rgba(26, 127, 90, 0.14);
+    --green-text: #5fba8a;
+    --coral-bg: rgba(205, 74, 42, 0.14);
+    --coral-text: #d97550;
+    --blue-bg: rgba(26, 95, 165, 0.14);
+    --blue-text: #5890cc;
+    --amber-bg: rgba(122, 77, 11, 0.14);
+    --amber-text: #c08830;
+    --lime-bg: rgba(59, 109, 17, 0.14);
+    --lime-text: #80b030;
+    --red-bg: rgba(160, 45, 45, 0.14);
+    --red-text: #d06060;
   }
 }
 
@@ -91,7 +115,11 @@ body {
   margin: 0;
   background: var(--bg-canvas);
   color: var(--text-primary);
-  font-family: var(--font-body), system-ui, -apple-system, sans-serif;
+  font-family:
+    var(--font-body),
+    system-ui,
+    -apple-system,
+    sans-serif;
   font-size: 15px;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
@@ -216,7 +244,7 @@ strong {
 }
 
 .surface-inner {
-  padding: 1.25rem;
+  padding: 1.35rem 1.5rem;
 }
 
 /* ─── Section Title ─── */
@@ -489,7 +517,7 @@ strong {
 
 code,
 pre {
-  font-family: var(--font-mono), 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono), "SF Mono", "Fira Code", monospace;
 }
 
 code {
@@ -536,7 +564,7 @@ code {
   border-radius: 0;
   color: #e0e0e0;
   padding: 1rem 1.1rem;
-  font-family: var(--font-mono), 'SF Mono', 'Fira Code', monospace;
+  font-family: var(--font-mono), "SF Mono", "Fira Code", monospace;
   font-size: 0.85rem;
   line-height: 1.75;
   white-space: pre;
@@ -682,6 +710,287 @@ a.feature-card:focus-visible {
   margin: 0;
   color: var(--text-secondary);
   line-height: 1.65;
+}
+
+/* ─── Roadmap Focus Sections ─── */
+
+.roadmap-focus-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.85fr);
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+}
+
+.roadmap-focus-copy {
+  display: grid;
+  align-content: start;
+  gap: 0.25rem;
+}
+
+.roadmap-focus-panel {
+  display: grid;
+  gap: 0.65rem;
+  align-content: start;
+}
+
+.system-design-hero-rail {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.5rem;
+}
+
+.roadmap-signal-list {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.roadmap-signal-list p,
+.system-stage-pill span {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.roadmap-signal-list p,
+.system-stage-pill {
+  padding: 0.75rem 0.9rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+}
+
+.roadmap-stat-strip {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.roadmap-stat-tile {
+  display: grid;
+  gap: 0.2rem;
+  padding: 1rem 1.05rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.roadmap-stat-tile strong {
+  font-family: var(--font-display), system-ui, sans-serif;
+  font-size: 1rem;
+  letter-spacing: -0.02em;
+}
+
+.roadmap-stat-tile span {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.pattern-group-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.pattern-group {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.pattern-group-header {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pattern-group-header h3,
+.system-week-heading h3,
+.system-framework-step h4,
+.pattern-guide-heading h4,
+.system-concept-card h4 {
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.pattern-group-header p,
+.system-week-heading p,
+.system-framework-step p,
+.pattern-guide-heading p,
+.system-concept-card p,
+.system-week-meta p {
+  margin: 0;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.pattern-card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr));
+  gap: 0.85rem;
+}
+
+.pattern-guide-card {
+  display: grid;
+  gap: 0.9rem;
+  padding: 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition:
+    border-color 0.14s ease,
+    box-shadow 0.14s ease;
+}
+
+.pattern-guide-card:hover {
+  border-color: var(--border-strong);
+  box-shadow: var(--shadow-soft);
+}
+
+.pattern-guide-topline {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.pattern-guide-heading {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.pattern-guide-details {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+}
+
+.pattern-guide-details div {
+  display: grid;
+  gap: 0.25rem;
+  padding-top: 0.7rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.pattern-guide-details dt {
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.pattern-guide-details dd {
+  margin: 0;
+  color: var(--text-primary);
+  line-height: 1.65;
+}
+
+.system-design-hero {
+  background: var(--surface);
+}
+
+.system-stage-pill {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.system-stage-pill strong {
+  white-space: nowrap;
+  font-size: 0.8rem;
+  letter-spacing: -0.01em;
+}
+
+.system-week-meta strong {
+  font-size: 0.85rem;
+  letter-spacing: -0.01em;
+}
+
+.system-design-track {
+  display: grid;
+  gap: 0.9rem;
+}
+
+.system-week-card {
+  display: grid;
+  grid-template-columns: minmax(10rem, 13rem) minmax(0, 1fr);
+  gap: 1.25rem;
+  padding: 1.1rem;
+}
+
+.system-week-meta {
+  display: grid;
+  align-content: start;
+  gap: 0.55rem;
+  padding-right: 1rem;
+  border-right: 1px solid var(--border-subtle);
+}
+
+.system-week-body {
+  display: grid;
+  gap: 1rem;
+}
+
+.system-week-heading {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.system-concept-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 0.65rem;
+}
+
+.system-concept-card {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 0.75rem;
+  padding: 0.95rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+}
+
+.system-concept-index,
+.system-framework-badge {
+  display: inline-grid;
+  place-items: center;
+  height: 1.9rem;
+  width: 1.9rem;
+  border-radius: 999px;
+  background: var(--purple-bg);
+  color: var(--purple-text);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.system-framework {
+  display: grid;
+  gap: 1rem;
+  padding: 1.1rem;
+}
+
+.system-framework-header {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.system-framework-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.system-framework-step {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
 }
 
 /* ─── Lists ─── */
@@ -1252,8 +1561,21 @@ a.feature-card:focus-visible {
   .feature-grid.two-up,
   .feature-grid.three-up,
   .topic-grid.two-up,
-  .topic-grid.three-up {
+  .topic-grid.three-up,
+  .pattern-card-grid,
+  .roadmap-stat-strip,
+  .system-design-hero-rail,
+  .system-week-card,
+  .system-concept-grid,
+  .system-framework-grid {
     grid-template-columns: 1fr;
+  }
+
+  .system-week-meta {
+    padding-right: 0;
+    padding-bottom: 1rem;
+    border-right: 0;
+    border-bottom: 1px solid var(--border-subtle);
   }
 
   .tracker-grid {

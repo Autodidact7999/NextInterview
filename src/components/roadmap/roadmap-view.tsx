@@ -38,6 +38,150 @@ const phaseCards = [
   },
 ] as const;
 
+const patternCollections = [
+  {
+    title: "Foundation patterns",
+    description:
+      "The shapes you want automatic before harder graph and DP work starts showing up in mocks.",
+    accent: "accent-green",
+    patterns: [
+      "Two Pointers",
+      "Sliding Window",
+      "Binary Search",
+      "Prefix Sum",
+      "Fast & Slow Pointers",
+    ] as const,
+  },
+  {
+    title: "Traversal and structure",
+    description:
+      "Patterns that help you move through trees, graphs, and branching state spaces without losing the invariant.",
+    accent: "accent-purple",
+    patterns: [
+      "BFS / Level Order",
+      "DFS / Backtracking",
+      "Topological Sort",
+      "Union Find (DSU)",
+      "Trie (Prefix Tree)",
+    ] as const,
+  },
+  {
+    title: "Optimization and prioritization",
+    description:
+      "The patterns that usually unlock the leap from correct to interview-caliber performance.",
+    accent: "accent-coral",
+    patterns: [
+      "Dynamic Programming",
+      "Merge Intervals",
+      "Top K / Heap",
+      "Monotonic Stack",
+      "Greedy",
+    ] as const,
+  },
+] as const;
+
+const patternSignals = [
+  "Name the input shape first: sorted, linear stream, tree/graph, interval list, or optimization target.",
+  "Pick the invariant before coding: window, pointer relation, queue frontier, heap top, or DP state.",
+  "Stress test with the smallest edge case before the happy path to catch broken transitions early.",
+] as const;
+
+const systemDesignStageNotes = [
+  {
+    label: "Shared language",
+    copy: "Get fluent with trade-offs so your opening ten minutes sound grounded instead of memorized.",
+  },
+  {
+    label: "Storage choices",
+    copy: "Connect data shape, read/write patterns, and consistency expectations before you scale anything.",
+  },
+  {
+    label: "Fast paths",
+    copy: "Caching and CDN decisions usually produce the biggest early latency wins.",
+  },
+  {
+    label: "Case studies",
+    copy: "Translate the theory into concrete product systems with clear traffic and fan-out decisions.",
+  },
+  {
+    label: "Async systems",
+    copy: "Use queues and event flow to absorb spikes, isolate failures, and keep services decoupled.",
+  },
+  {
+    label: "Distributed trade-offs",
+    copy: "This is where coordination, replication, and consistency costs become part of the design story.",
+  },
+  {
+    label: "User-facing scale",
+    copy: "Realtime delivery and search both test how well you separate hot paths from durable systems.",
+  },
+  {
+    label: "Full-round rehearsal",
+    copy: "Practice complete answers with APIs, scaling story, bottlenecks, and monitoring all spoken aloud.",
+  },
+] as const;
+
+const pedalsSteps = [
+  {
+    label: "P",
+    title: "Problem",
+    copy: "Clarify users, constraints, traffic shape, and success metrics before drawing boxes.",
+  },
+  {
+    label: "E",
+    title: "Estimates",
+    copy: "Back into QPS, storage, fan-out, and growth so the design has a believable load profile.",
+  },
+  {
+    label: "D",
+    title: "Design API",
+    copy: "Define the core endpoints and contracts early so the rest of the system has a clean seam.",
+  },
+  {
+    label: "A",
+    title: "Architecture",
+    copy: "Lay out the happy path first, then add queues, caches, and background workers where pressure builds.",
+  },
+  {
+    label: "L",
+    title: "Load & scale",
+    copy: "Explain how the hot path behaves at 10x traffic and where you would partition or cache next.",
+  },
+  {
+    label: "S",
+    title: "Storage",
+    copy: "Close by justifying schemas, indexes, TTLs, and the consistency model that fits the product.",
+  },
+] as const;
+
+function getPatternCard(patternName: string) {
+  const pattern = roadmapPatterns.find((entry) => entry.name === patternName);
+
+  if (!pattern) {
+    throw new Error(`Missing roadmap pattern: ${patternName}`);
+  }
+
+  return pattern;
+}
+
+function phaseAccent(phase: string): string {
+  if (phase === "M1") return "accent-green";
+  if (phase === "M2") return "accent-purple";
+  if (phase === "M3") return "accent-coral";
+  return "accent-purple";
+}
+
+// Maps pattern bg color hex to a CSS accent class so badges adapt to dark mode
+function patternAccent(bg: string): string {
+  const upper = bg.toUpperCase();
+  if (upper.startsWith("#E1F5") || upper.startsWith("#EAF3")) return "accent-green";
+  if (upper.startsWith("#EEEE") || upper.startsWith("#EEED")) return "accent-purple";
+  if (upper.startsWith("#FAEC") || upper.startsWith("#FCEB")) return "accent-coral";
+  if (upper.startsWith("#FAEE")) return "accent-amber";
+  if (upper.startsWith("#E6F1")) return "accent-blue";
+  return "accent-purple";
+}
+
 export function RoadmapView({
   selectedSection,
 }: {
@@ -149,16 +293,16 @@ export function RoadmapView({
           {roadmapWeeks.map((week) => (
             <details className="week-card" key={week.week}>
               <summary className="week-summary">
-                <span
-                  className="badge"
-                  style={{ background: week.bg, color: week.color }}
-                >
+                <span className={`badge ${phaseAccent(week.phase)}`}>
                   {week.phase} · Week {week.week}
                 </span>
                 <span className="week-summary-title">{week.title}</span>
                 <span className="subtle">Expand</span>
               </summary>
               <div className="surface-inner page-stack">
+                {week.intro ? (
+                  <p className="section-copy">{week.intro}</p>
+                ) : null}
                 <div className="feature-grid two-up">
                   <div>
                     <p className="eyebrow">Topics</p>
@@ -184,44 +328,173 @@ export function RoadmapView({
       ) : null}
 
       {selectedSection === "patterns" ? (
-        <section className="feature-grid three-up">
-          {roadmapPatterns.map((pattern) => (
-            <article className="feature-card" key={pattern.name}>
-              <span
-                className="badge"
-                style={{ background: pattern.bg, color: pattern.tc }}
-              >
-                {pattern.tag}
-              </span>
-              <h3>{pattern.name}</h3>
-              <p>{pattern.desc}</p>
-              <p className="subtle">{pattern.ex}</p>
-            </article>
-          ))}
+        <section className="patterns-shell page-stack">
+          <div className="surface surface-inner">
+            <p className="eyebrow">Pattern playbook</p>
+            <h2 className="page-title" style={{ marginBottom: "0.5rem" }}>
+              Train recognition before memorizing.
+            </h2>
+            <p className="page-description" style={{ marginBottom: "1.25rem" }}>
+              These are the recurring problem shapes interviewers reuse. The
+              goal is to spot the structure quickly, choose the right invariant,
+              and only then write code.
+            </p>
+            <div className="roadmap-focus-panel">
+              <p className="eyebrow">Fast scan loop</p>
+              <div className="roadmap-signal-list">
+                {patternSignals.map((signal) => (
+                  <p key={signal}>{signal}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="roadmap-stat-strip">
+            <div className="roadmap-stat-tile">
+              <strong>{roadmapPatterns.length}</strong>
+              <span>Core patterns</span>
+            </div>
+            <div className="roadmap-stat-tile">
+              <strong>3</strong>
+              <span>Study clusters</span>
+            </div>
+            <div className="roadmap-stat-tile">
+              <strong>Identify - choose - dry run</strong>
+              <span>Default interview cadence</span>
+            </div>
+          </div>
+
+          <div className="pattern-group-list">
+            {patternCollections.map((collection) => (
+              <section className="pattern-group surface" key={collection.title}>
+                <div className="pattern-group-header">
+                  <span className={`badge ${collection.accent}`}>
+                    {collection.patterns.length} patterns
+                  </span>
+                  <h3>{collection.title}</h3>
+                  <p className="section-copy">{collection.description}</p>
+                </div>
+
+                <div className="pattern-card-grid">
+                  {collection.patterns.map((patternName) => {
+                    const pattern = getPatternCard(patternName);
+
+                    return (
+                      <article
+                        className="pattern-guide-card"
+                        key={pattern.name}
+                      >
+                        <div className="pattern-guide-topline">
+                          <span className={`badge ${patternAccent(pattern.bg)}`}>
+                            {pattern.tag}
+                          </span>
+                        </div>
+
+                        <div className="pattern-guide-heading">
+                          <h4>{pattern.name}</h4>
+                          <p>{pattern.desc}</p>
+                        </div>
+
+                        <dl className="pattern-guide-details">
+                          <div>
+                            <dt>Look for</dt>
+                            <dd>{pattern.signal}</dd>
+                          </div>
+                          <div>
+                            <dt>Guardrails</dt>
+                            <dd>{pattern.edgeCases}</dd>
+                          </div>
+                          <div>
+                            <dt>Drill with</dt>
+                            <dd>{pattern.ex}</dd>
+                          </div>
+                        </dl>
+                      </article>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
+          </div>
         </section>
       ) : null}
 
       {selectedSection === "system-design" ? (
-        <section className="page-stack">
-          <div className="topic-grid two-up">
-            {systemDesignTopics.map((topic) => (
-              <article className="feature-card" key={topic.week}>
-                <p className="eyebrow">{topic.week}</p>
-                <h3>{topic.title}</h3>
-                <ul className="dot-list list-reset">
-                  {topic.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
+        <section className="system-design-shell page-stack">
+          <div className="surface surface-inner">
+            <p className="eyebrow">System design studio</p>
+            <h2 className="page-title" style={{ marginBottom: "0.5rem" }}>
+              Build answers that sound composed under pressure.
+            </h2>
+            <p className="page-description" style={{ marginBottom: "1.25rem" }}>
+              Move from vocabulary and storage choices into distributed
+              trade-offs, then finish with end-to-end product designs you can
+              speak through in one pass.
+            </p>
+            <div className="system-design-hero-rail">
+              {systemDesignStageNotes.map((stage) => (
+                <div className="system-stage-pill" key={stage.label}>
+                  <strong>{stage.label}:</strong>
+                  <span>{stage.copy}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div className="system-design-track">
+            {systemDesignTopics.map((topic, index) => (
+              <article className="system-week-card surface" key={topic.week}>
+                <div className="system-week-meta">
+                  <span className="badge accent-purple">{topic.week}</span>
+                  <strong>{systemDesignStageNotes[index]?.label}</strong>
+                  <p>{systemDesignStageNotes[index]?.copy}</p>
+                </div>
+
+                <div className="system-week-body">
+                  <div className="system-week-heading">
+                    <h3>{topic.title}</h3>
+                    {topic.intro ? <p>{topic.intro}</p> : null}
+                  </div>
+
+                  <div className="system-concept-grid">
+                    {topic.items.map((item, itemIndex) => (
+                      <article
+                        className="system-concept-card"
+                        key={item.concept}
+                      >
+                        <span className="system-concept-index">
+                          {itemIndex + 1}
+                        </span>
+                        <div>
+                          <h4>{item.concept}</h4>
+                          <p>{item.explanation}</p>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
               </article>
             ))}
           </div>
 
-          <div className="notice">
-            <strong>PEDALS framework:</strong> problem clarification, estimates,
-            design API, architecture, load and scale, then storage schema. Lead
-            with clarifications and narrate trade-offs.
-          </div>
+          <section className="system-framework surface">
+            <div className="system-framework-header">
+              <p className="eyebrow">PEDALS framework</p>
+              <h3 className="section-title">
+                Use one speaking order for every design round
+              </h3>
+            </div>
+
+            <div className="system-framework-grid">
+              {pedalsSteps.map((step) => (
+                <article className="system-framework-step" key={step.label}>
+                  <span className="system-framework-badge">{step.label}</span>
+                  <h4>{step.title}</h4>
+                  <p>{step.copy}</p>
+                </article>
+              ))}
+            </div>
+          </section>
         </section>
       ) : null}
 

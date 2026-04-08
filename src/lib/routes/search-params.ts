@@ -19,6 +19,7 @@ export const referenceSectionOptions: {
 }[] = [
   { label: "Mind Map", value: "mindmap" },
   { label: "Quick Ref", value: "quick-ref" },
+  { label: "Framework", value: "framework" },
   { label: "Types & Strings", value: "types" },
   { label: "Collections", value: "collections" },
   { label: "Patterns", value: "patterns" },

@@ -6,6 +6,7 @@ export interface WeekPlan {
   title: string;
   color: string;
   bg: string;
+  intro: string;
   days: string[];
   topics: string[];
 }
@@ -16,13 +17,21 @@ export interface PatternCard {
   bg: string;
   tc: string;
   desc: string;
+  signal: string;
+  edgeCases: string;
   ex: string;
+}
+
+export interface SystemDesignItem {
+  concept: string;
+  explanation: string;
 }
 
 export interface SystemDesignTopic {
   week: string;
   title: string;
-  items: string[];
+  intro: string;
+  items: SystemDesignItem[];
 }
 
 export interface ReferenceAccordionItem {
@@ -33,11 +42,13 @@ export interface ReferenceAccordionItem {
   body: string;
   code: string;
   trap: string | null;
+  edgeCases: string | null;
 }
 
 export interface MindMapNodeDetail {
   desc: string;
   when: string;
+  whyItWorks: string;
   example: string;
 }
 
@@ -75,6 +86,7 @@ export type WeekMetaMap = Record<number, WeekMeta>;
 
 export interface SolutionSnippet {
   pattern: string;
+  approach: string;
   insight: string;
   code: string;
   time: string;
@@ -120,6 +132,12 @@ export interface RevisionInterval {
   description: string;
 }
 
+export interface DecisionStep {
+  question: string;
+  ifYes: string;
+  ifNo: string;
+}
+
 export type RoadmapSection =
   | "overview"
   | "weekly"
@@ -133,7 +151,8 @@ export type ReferenceSection =
   | "types"
   | "collections"
   | "patterns"
-  | "traps";
+  | "traps"
+  | "framework";
 
 export type PracticeWeekFilter = "all" | number;
 

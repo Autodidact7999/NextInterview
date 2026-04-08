@@ -5,6 +5,7 @@ import {
   typesReferenceEntries,
 } from "@/content/reference.generated";
 import type {
+  DecisionStep,
   MindMapNodeDetailMap,
   QuickRefRow,
   QuizEntry,
@@ -278,3 +279,46 @@ export const quizEntries: QuizEntry[] = [
     answer: "left + (right - left) / 2",
   },
 ] satisfies QuizEntry[];
+
+export const decisionFramework: DecisionStep[] = [
+  {
+    question: "Is the input sorted, or can sorting help without breaking the answer?",
+    ifYes: "Think Two Pointers or Binary Search. If looking for pairs/triplets with a target, Two Pointers on a sorted array is likely O(n). If searching for a specific value or boundary, Binary Search gives O(log n).",
+    ifNo: "Move to the next question — sorting may still help later as a preprocessing step."
+  },
+  {
+    question: "Does the problem ask for the longest/shortest subarray or substring with a constraint?",
+    ifYes: "Classic Sliding Window signal. Use two pointers (left/right) expanding right and shrinking left when the constraint breaks. Variable-size window for 'longest', fixed-size for 'max sum of size k'.",
+    ifNo: "Move on — but if you see 'contiguous subarray' anywhere, revisit this."
+  },
+  {
+    question: "Do I need O(1) lookup — checking existence, counting frequency, or mapping values?",
+    ifYes: "HashMap for key-value pairs, HashSet for existence checks, int[26] or int[128] for character frequency. If you're counting prefix sums, combine HashMap with a running sum.",
+    ifNo: "The problem likely needs a structural approach rather than lookup."
+  },
+  {
+    question: "Does the problem involve a tree or graph structure (nodes, edges, parent-child, connected components)?",
+    ifYes: "For trees: DFS for path/depth problems, BFS for level-order or shortest depth. For graphs: BFS for shortest unweighted path, DFS for exploring all paths, Union Find for connectivity, Topological Sort for dependency ordering.",
+    ifNo: "Check if the problem can be modeled as a graph even if not explicitly stated (e.g., word transformation = graph of words)."
+  },
+  {
+    question: "Am I asked to find the minimum/maximum, count ways, or make optimal choices at each step?",
+    ifYes: "This is likely DP. Identify the state (what changes between subproblems), the choice (what decision you make), and the recurrence (how smaller answers build the bigger one). Start with brute recursion, then memoize.",
+    ifNo: "If you need 'all possible' results (subsets, permutations, combinations), think Backtracking instead."
+  },
+  {
+    question: "Do I need the K largest, K smallest, or K most frequent elements?",
+    ifYes: "Heap (PriorityQueue). K largest → min-heap of size K. K smallest → max-heap of size K. For streaming data or merge-K-sorted, heap is almost always the answer.",
+    ifNo: "If you need sorted order with floor/ceiling lookups, consider TreeMap/TreeSet."
+  },
+  {
+    question: "Does the problem ask about 'next greater', 'next smaller', or spans/distances between elements?",
+    ifYes: "Monotonic Stack. Store indices (not values) in the stack. Maintain increasing order for 'next greater', decreasing for 'next smaller'. Process elements left-to-right and pop when the invariant breaks.",
+    ifNo: "If the problem involves matching/nesting (parentheses, expressions), use a regular Stack."
+  },
+  {
+    question: "Does the problem involve intervals (start/end times, ranges)?",
+    ifYes: "Sort by start time first. For merging: compare current start with previous end. For counting overlaps: use a min-heap of end times (Meeting Rooms II pattern). For maximum non-overlapping: sort by end time and use greedy.",
+    ifNo: "You've covered the major patterns — revisit the constraints and think about what data structure matches the access pattern you need."
+  }
+] satisfies DecisionStep[];

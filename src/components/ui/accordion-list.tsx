@@ -33,6 +33,11 @@ export function AccordionList({ items }: AccordionListProps) {
                 <strong>Trap:</strong> {item.trap}
               </div>
             ) : null}
+            {item.edgeCases ? (
+              <div className="notice">
+                <strong>Edge cases:</strong> {item.edgeCases}
+              </div>
+            ) : null}
           </div>
         </details>
       ))}

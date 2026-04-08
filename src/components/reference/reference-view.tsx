@@ -6,6 +6,7 @@ import { SectionLinks } from "@/components/ui/section-links";
 import { MindMap } from "@/components/reference/mind-map";
 import {
   collectionsReferenceEntries,
+  decisionFramework,
   patternReferenceEntries,
   quickRefRows,
   quizEntries,
@@ -123,6 +124,50 @@ export function ReferenceView({
             </div>
           </section>
         </>
+      ) : null}
+
+      {selectedSection === "framework" ? (
+        <section className="surface surface-inner page-stack">
+          <div>
+            <p className="eyebrow">Before you code</p>
+            <h2 className="section-title">
+              Walk through these questions to find the right pattern
+            </h2>
+            <p className="section-copy">
+              When you see a new problem and don&apos;t know where to start, run
+              through this decision tree. Each question narrows the pattern space
+              so you reach a strategy faster.
+            </p>
+          </div>
+
+          <div className="card-list">
+            {decisionFramework.map((step, index) => (
+              <details className="accordion-item" key={step.question}>
+                <summary className="accordion-trigger">
+                  <span className="badge accent-purple">{index + 1}</span>
+                  <span className="accordion-title">{step.question}</span>
+                  <span aria-hidden className="accordion-chevron">
+                    ▶
+                  </span>
+                </summary>
+                <div className="accordion-panel">
+                  <div className="notice">
+                    <strong>Yes:</strong> {step.ifYes}
+                  </div>
+                  <div className="notice">
+                    <strong>No:</strong> {step.ifNo}
+                  </div>
+                </div>
+              </details>
+            ))}
+          </div>
+
+          <div className="notice">
+            <strong>Tip:</strong> These questions are ordered roughly by how
+            common the patterns are. In a real interview, run through them
+            mentally in under 60 seconds before writing any code.
+          </div>
+        </section>
       ) : null}
 
       {selectedSection === "types" ? (

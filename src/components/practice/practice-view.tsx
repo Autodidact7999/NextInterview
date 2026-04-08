@@ -479,6 +479,16 @@ export function PracticeView({
                                       <span>{`Time ${solution.time}`}</span>
                                       <span>{`Space ${solution.space}`}</span>
                                     </div>
+                                    {solution.approach ? (
+                                      <div className={styles.approachBlock}>
+                                        <strong className={styles.approachLabel}>
+                                          How to think about it
+                                        </strong>
+                                        <p className={styles.approachCopy}>
+                                          {solution.approach}
+                                        </p>
+                                      </div>
+                                    ) : null}
                                     <p className={styles.solutionCopy}>
                                       {solution.insight}
                                     </p>

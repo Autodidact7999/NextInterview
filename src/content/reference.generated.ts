@@ -15,7 +15,8 @@ export const typesReferenceEntries = [
 <span class="kw">double</span>  <span class="cm">// 64-bit float (avoid for exact integer logic)</span>
 
 <span class="kw">long</span> x = <span class="nm">10000000000L</span>; <span class="cm">// must add L suffix for long literals</span>`,
-    trap: 'Array values up to 10⁹ summed many times can exceed int. Use long. This causes silent wrong answers with no compile error.'
+    trap: 'Array values up to 10⁹ summed many times can exceed int. Use long. This causes silent wrong answers with no compile error.',
+    edgeCases: 'Watch for int overflow when multiplying two large ints (e.g., 100000 * 100000 exceeds int). Sum of n values near 10⁹ needs long. Negative numbers in modulo operations behave differently than you expect.'
   },
   {
     title: 'Arrays — int[], char[], int[][]',
@@ -35,7 +36,8 @@ Arrays.binarySearch(arr, target);
 <span class="kw">int</span>[][] grid = <span class="kw">new</span> <span class="kw">int</span>[m][n];
 <span class="kw">int</span> rows = grid.length;
 <span class="kw">int</span> cols = grid[<span class="nm">0</span>].length;`,
-    trap: 'arr.length for arrays (no parentheses). String uses s.length(). Mixing them is a very common compile error.'
+    trap: 'arr.length for arrays (no parentheses). String uses s.length(). Mixing them is a very common compile error.',
+    edgeCases: 'Empty array. Single-element array. Array with all zeros. Very large arrays (10⁶+ elements) — check for O(n²) bugs. 2D arrays with jagged rows (rows can have different lengths).'
   },
   {
     title: 'String — immutable, read-only',
@@ -56,7 +58,8 @@ s.endsWith(<span class="st">"yz"</span>);
 s.toLowerCase();
 s.trim();
 s.contains(<span class="st">"xyz"</span>);`,
-    trap: 'String += in a loop is O(n²) — each concatenation allocates a new String. Use StringBuilder. Also: always use .equals() not == for string comparison in Java.'
+    trap: 'String += in a loop is O(n²) — each concatenation allocates a new String. Use StringBuilder. Also: always use .equals() not == for string comparison in Java.',
+    edgeCases: 'Empty string. Single character. Null string (NPE — check before using). Unicode characters beyond ASCII. Very large strings (10⁶+ chars) — watch for O(n²) algorithms. String with only whitespace.'
   },
   {
     title: 'StringBuilder — mutable string builder',
@@ -73,7 +76,8 @@ sb.reverse();
 sb.charAt(i);
 sb.length();
 <span class="tp">String</span> result = sb.toString();`,
-    trap: 'Common backtracking mistake: forgetting to call deleteCharAt or delete after recursion returns, leaving the path corrupted.'
+    trap: 'Common backtracking mistake: forgetting to call deleteCharAt or delete after recursion returns, leaving the path corrupted.',
+    edgeCases: 'Building empty string. Very long result strings (10⁶+ chars). Reversing strings — make sure indices are correct. Multiple sequential insertions/deletions can be inefficient.'
   },
   {
     title: 'char[] — mutable character array',
@@ -97,7 +101,8 @@ arr[i] = <span class="st">'x'</span>;                  <span class="cm">// direc
 <span class="cm">// Frequency array — all ASCII</span>
 <span class="kw">int</span>[] cnt = <span class="kw">new</span> <span class="kw">int</span>[<span class="nm">128</span>];
 <span class="kw">for</span> (<span class="kw">char</span> c : s.toCharArray()) cnt[c]++;`,
-    trap: null
+    trap: null,
+    edgeCases: 'Repeated characters. Very long char arrays. Index out of bounds (double-check iteration limits). Swapping at wrong indices.'
   },
   {
     title: 'Conversions, Wrappers & Math',
@@ -119,7 +124,8 @@ Math.min(a, b);
 Math.abs(x);
 Math.sqrt(x);      <span class="cm">// returns double</span>
 Math.pow(a, b);    <span class="cm">// returns double — avoid for exact int logic</span>`,
-    trap: 'Autoboxing can throw NullPointerException when unboxing a null Integer to int. Use getOrDefault to avoid null values from maps.'
+    trap: 'Autoboxing can throw NullPointerException when unboxing a null Integer to int. Use getOrDefault to avoid null values from maps.',
+    edgeCases: 'Non-numeric strings in parseInt (NumberFormatException). Null pointer when unboxing. Values at Integer.MAX_VALUE and Integer.MIN_VALUE. Parsing leading zeros. Very large Long values.'
   }
 ] satisfies ReferenceAccordionItem[];
 
@@ -141,7 +147,8 @@ list.size();
 list.contains(<span class="nm">5</span>);
 Collections.sort(list);
 list.sort((a, b) -&gt; Integer.compare(b, a)); <span class="cm">// descending</span>`,
-    trap: 'list.remove(1) removes by index. list.remove(Integer.valueOf(1)) removes by value. With List<Integer> this is a common silent bug.'
+    trap: 'list.remove(1) removes by index. list.remove(Integer.valueOf(1)) removes by value. With List<Integer> this is a common silent bug.',
+    edgeCases: 'Empty list. Single-element list. Removing while iterating (ConcurrentModificationException). Adding/removing at front (O(n) cost). Null elements in list. Sorting with custom comparator on Integer list.'
   },
   {
     title: 'HashMap — key-value lookup',
@@ -169,7 +176,8 @@ map.put(x, map.getOrDefault(x, <span class="nm">0</span>) + <span class="nm">1</
     <span class="kw">int</span> val = e.getValue();
 }
 <span class="kw">for</span> (<span class="kw">int</span> k : map.keySet()) { ... }`,
-    trap: 'map.get(key) returns null if not found. Unboxing null to int throws NullPointerException. Always use getOrDefault or check containsKey first.'
+    trap: 'map.get(key) returns null if not found. Unboxing null to int throws NullPointerException. Always use getOrDefault or check containsKey first.',
+    edgeCases: 'Empty map. Single entry map. Keys that hash to the same bucket (rare in interviews but explains O(n) worst case). Null keys are allowed but avoid them. Null values (distinct from missing keys). Iterating while modifying (ConcurrentModificationException).'
   },
   {
     title: 'HashSet — fast membership',
@@ -191,7 +199,8 @@ Set&lt;<span class="tp">Integer</span>&gt; visited = <span class="kw">new</span>
 <span class="kw">if</span> (visited.add(node)) {   <span class="cm">// add returns false if already present</span>
     <span class="cm">// process node</span>
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty set. Single-element set. Iterating order is unpredictable (hash-based). Adding duplicates (silently ignored). Large sets (10⁶+ elements) with hash collisions.'
   },
   {
     title: 'Queue (BFS) — ArrayDeque',
@@ -216,7 +225,8 @@ q.offer(root);
         <span class="kw">if</span> (node.right != <span class="kw">null</span>) q.offer(node.right);
     }
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty queue. Single-element queue. Multiple levels with the same size (level-order tree). Calling poll/peek on empty queue (returns null, doesn\'t throw). Very deep trees causing large queue sizes.'
   },
   {
     title: 'Deque / Stack — ArrayDeque',
@@ -243,7 +253,8 @@ Deque&lt;<span class="tp">Integer</span>&gt; mono = <span class="kw">new</span> 
         res[mono.pop()] = nums[i]; <span class="cm">// found next greater</span>
     mono.push(i);                  <span class="cm">// push INDEX</span>
 }`,
-    trap: 'Do NOT use Stack<> (legacy, synchronized, slow) or LinkedList<>. ArrayDeque is always faster for stack/deque use.'
+    trap: 'Do NOT use Stack<> (legacy, synchronized, slow) or LinkedList<>. ArrayDeque is always faster for stack/deque use.',
+    edgeCases: 'Empty stack/deque. Single element. Calling pop/peek on empty deque (throws NoSuchElementException). Very deep recursion causing stack overflow. Monotonic stack with very long input array.'
   },
   {
     title: 'PriorityQueue — Heap',
@@ -273,7 +284,8 @@ pq.offer(<span class="kw">new</span> <span class="kw">int</span>[]{dist, node});
     <span class="kw">if</span> (minPQ.size() &gt; k) minPQ.poll();
 }
 <span class="cm">// top of minPQ is now the Kth largest</span>`,
-    trap: 'Comparator subtraction (a-b) can overflow with large negatives. Always use Integer.compare(a, b). Also: PriorityQueue<int[]> needs a comparator — no default exists for arrays.'
+    trap: 'Comparator subtraction (a-b) can overflow with large negatives. Always use Integer.compare(a, b). Also: PriorityQueue<int[]> needs a comparator — no default exists for arrays.',
+    edgeCases: 'Empty heap. Single-element heap. K = 0 (edge case in Top K). K > array size. Duplicate values in heap. Very large K values causing heap to grow unbounded. Comparator returning 0 for all elements (all equal priority).'
   },
   {
     title: 'TreeMap — sorted key-value map',
@@ -296,7 +308,8 @@ tm.size();
 <span class="cm">// Iterate in sorted key order</span>
 <span class="kw">for</span> (<span class="kw">int</span> key : tm.keySet()) { ... }
 <span class="kw">for</span> (Map.Entry&lt;<span class="tp">Integer</span>,<span class="tp">Integer</span>&gt; e : tm.entrySet()) { ... }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty map. Single entry. Querying for key that doesn\'t exist (returns null). floor/ceiling on boundary values. Very large maps (10⁶+ entries) causing slow iteration.'
   },
   {
     title: 'TreeSet — sorted unique elements',
@@ -317,7 +330,8 @@ ts.size();
 
 <span class="cm">// Iterate in sorted order</span>
 <span class="kw">for</span> (<span class="kw">int</span> x : ts) { ... }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty set. Single element. Querying for value that doesn\'t exist (returns null). floor/ceiling on boundary values. Duplicates (silently ignored on add). Very large sorted sets causing slow operations.'
   }
 ] satisfies ReferenceAccordionItem[];
 
@@ -339,7 +353,8 @@ Map&lt;<span class="tp">Integer</span>,<span class="tp">Integer</span>&gt; freq 
 <span class="cm">// int[128] — any ASCII</span>
 <span class="kw">int</span>[] cnt = <span class="kw">new</span> <span class="kw">int</span>[<span class="nm">128</span>];
 <span class="kw">for</span> (<span class="kw">char</span> c : s.toCharArray()) cnt[c]++;`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty input string or array. Single element. All elements are the same. Uppercase vs. lowercase letters (different ranges). Non-ASCII characters for int[128] (IndexOutOfBoundsException).'
   },
   {
     title: 'Binary Search',
@@ -364,7 +379,8 @@ Map&lt;<span class="tp">Integer</span>,<span class="tp">Integer</span>&gt; freq 
     <span class="kw">else</span>                   right = mid;
 }
 <span class="kw">return</span> left;`,
-    trap: 'Use left + (right - left) / 2, not (left + right) / 2. The latter overflows if both are near Integer.MAX_VALUE.'
+    trap: 'Use left + (right - left) / 2, not (left + right) / 2. The latter overflows if both are near Integer.MAX_VALUE.',
+    edgeCases: 'Empty array. Single-element array. Target not in array. Duplicates in array (which index to return?). All elements equal. Negative numbers mixed with positive. Array with Integer.MAX_VALUE/MIN_VALUE.'
   },
   {
     title: 'Monotonic Stack',
@@ -384,7 +400,8 @@ Arrays.fill(res, -<span class="nm">1</span>);
 
 <span class="cm">// For decreasing stack: flip comparison to &gt;</span>
 <span class="cm">// For circular array: loop i from 0 to 2n-1, use i%n</span>`,
-    trap: 'Always push indices, not values. You need the index to compute spans, distances, or look up values in the original array.'
+    trap: 'Always push indices, not values. You need the index to compute spans, distances, or look up values in the original array.',
+    edgeCases: 'Empty array. Single element. All elements strictly increasing (all stay in stack). All elements strictly decreasing (all pop immediately). Circular array variation. Very large array causing stack to grow.'
   },
   {
     title: 'Monotonic Deque — Sliding Window Max/Min',
@@ -406,7 +423,8 @@ Deque&lt;<span class="tp">Integer</span>&gt; dq = <span class="kw">new</span> Ar
     <span class="kw">if</span> (i &gt;= k - <span class="nm">1</span>)
         res[i - k + <span class="nm">1</span>] = nums[dq.peekFirst()];
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Window size k = 1 (just return the array). Window size k > array size. Array of all equal elements. Strictly increasing or decreasing array. Very large window size. Integer.MIN_VALUE in window (comparison trickiness).'
   },
   {
     title: 'Backtracking',
@@ -427,7 +445,8 @@ List&lt;<span class="tp">Integer</span>&gt; path = <span class="kw">new</span> A
 
 <span class="cm">// For permutations: use a boolean visited[] instead of start</span>
 <span class="cm">// For combinations with duplicates: sort first, skip duplicates</span>`,
-    trap: 'CRITICAL: res.add(new ArrayList<>(path)) — NOT res.add(path). path is mutable; adding it directly means every result entry points to the same list, which keeps getting modified.'
+    trap: 'CRITICAL: res.add(new ArrayList<>(path)) — NOT res.add(path). path is mutable; adding it directly means every result entry points to the same list, which keeps getting modified.',
+    edgeCases: 'Empty input array. Array with all duplicate elements. Single-element array. Very large branching factor causing TLE — check if pruning is sufficient. Array with negative numbers or zeros.'
   },
   {
     title: 'BFS — Graphs & Trees',
@@ -454,7 +473,8 @@ visited[start] = <span class="kw">true</span>;  <span class="cm">// mark on OFFE
     }
     dist++;
 }`,
-    trap: 'Mark visited when you ADD to the queue, not when you poll. Marking on poll allows the same node to be added multiple times, wasting work and giving wrong distances.'
+    trap: 'Mark visited when you ADD to the queue, not when you poll. Marking on poll allows the same node to be added multiple times, wasting work and giving wrong distances.',
+    edgeCases: 'Disconnected graph — BFS from one node won\'t reach all nodes. Single node graph. Graph with self-loops. Start node equals target node. Empty adjacency list. Very large graph (10⁶+ nodes) causing memory issues.'
   },
   {
     title: 'DFS — Graphs & Trees',
@@ -487,7 +507,8 @@ visited[start] = <span class="kw">true</span>;  <span class="cm">// mark on OFFE
     dfs(node.left,  curSum);
     dfs(node.right, curSum);
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Null/empty tree. Single-node tree. Tree with only left or only right children (skewed). Very deep tree causing stack overflow. Tree with all node values equal. Large tree (10⁵+ nodes) causing slow recursion.'
   },
   {
     title: 'Graph — Building Adjacency Lists',
@@ -512,7 +533,8 @@ dist[src] = <span class="nm">0</span>;
 PriorityQueue&lt;<span class="kw">int</span>[]&gt; pq = <span class="kw">new</span> PriorityQueue&lt;&gt;(
     (a, b) -&gt; Integer.compare(a[<span class="nm">0</span>], b[<span class="nm">0</span>]));
 pq.offer(<span class="kw">new</span> <span class="kw">int</span>[]{<span class="nm">0</span>, src}); <span class="cm">// {dist, node}</span>`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty graph. Single node. Disconnected components (unreachable nodes). Graph with cycles. Self-loops and multi-edges. Very large graph (10⁶+ nodes). Negative edge weights (use Dijkstra only for non-negative).'
   },
   {
     title: 'Union Find (DSU)',
@@ -542,7 +564,8 @@ pq.offer(<span class="kw">new</span> <span class="kw">int</span>[]{<span class="
         <span class="kw">return true</span>;
     }
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Already connected nodes (cycle — union returns false). Disconnected graph (multiple components). Single node (everything is its own component). Very large number of nodes (10⁶+). Union by rank vs. path compression trade-offs.'
   },
   {
     title: 'Trie (Prefix Tree)',
@@ -588,7 +611,8 @@ pq.offer(<span class="kw">new</span> <span class="kw">int</span>[]{<span class="
         <span class="kw">return true</span>;
     }
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Empty trie. Single word. Prefix longer than any word (returns false). Searching with uppercase letters (assumes lowercase). Trie with many words sharing same prefix. Very large word count causing memory issues.'
   },
   {
     title: 'Top K — Heap Direction',
@@ -611,7 +635,8 @@ PriorityQueue&lt;<span class="tp">Integer</span>&gt; pq =
     <span class="kw">if</span> (pq.size() &gt; k) pq.poll(); <span class="cm">// evict largest</span>
 }
 <span class="cm">// pq.peek() = Kth smallest</span>`,
-    trap: 'This direction is backwards from what feels natural. K LARGEST uses min-heap. K SMALLEST uses max-heap. Memorise once and never second-guess it.'
+    trap: 'This direction is backwards from what feels natural. K LARGEST uses min-heap. K SMALLEST uses max-heap. Memorise once and never second-guess it.',
+    edgeCases: 'K = 0 (edge case). K > array size. K = 1 (just return min or max). Array with all equal elements. Array with duplicates. Very large K values causing memory issues.'
   },
   {
     title: 'Comparator & Sorting Patterns',
@@ -638,7 +663,8 @@ students.sort((a, b) -&gt; Integer.compare(a.age, b.age));
 
 <span class="cm">// Reverse sorted order on Object array</span>
 Arrays.sort(boxed, Comparator.reverseOrder());`,
-    trap: 'Primitive int[] cannot use a custom Comparator. Convert to Integer[] first, or use int[][] (which works fine with lambdas).'
+    trap: 'Primitive int[] cannot use a custom Comparator. Convert to Integer[] first, or use int[][] (which works fine with lambdas).',
+    edgeCases: 'Empty array/list. Single element. All elements equal. Sorting with null comparator (default natural order). Integer overflow in custom comparator (use Integer.compare). Multi-field sorting edge cases (ties on first field).'
   },
   {
     title: 'Bit Manipulation',
@@ -664,34 +690,35 @@ x &amp; (-x)       <span class="cm">// isolate lowest set bit</span>
         <span class="kw">if</span> ((mask &amp; (<span class="nm">1</span> &lt;&lt; j)) != <span class="nm">0</span>) { <span class="cm">// j-th element included</span> }
     }
 }`,
-    trap: null
+    trap: null,
+    edgeCases: 'Zero value (all bits off). Negative numbers (two\'s complement representation). Single bit set. All bits set (Integer.MAX_VALUE or -1). Very large bit positions (32+ for int). Shift amounts >= 32 (undefined behavior).'
   }
 ] satisfies ReferenceAccordionItem[];
 
 export const mindMapNodeDetails = {
-  "int[]": {desc:"Integer array — fixed size, contiguous memory",when:"Storing integers, fixed-size collections",example:"int[] nums = new int[n];"},
-  "char[]": {desc:"Character array — for string manipulation",when:"String problems, char processing",example:"char[] chars = s.toCharArray();"},
-  "int[][]": {desc:"2D integer array — matrix",when:"Grid problems, DP tables",example:"int[][] grid = new int[m][n];"},
-  "Two Ptrs": {desc:"Two indices moving toward each other",when:"Sorted arrays, palindromes, partitions",example:"while(l<r){ if(ok) l++; else r--; }"},
-  "Prefix Sum": {desc:"Cumulative sum array for range queries",when:"Subarray sum, range sum queries",example:"prefix[i] = prefix[i-1] + nums[i];"},
-  "String": {desc:"Immutable string — use for lookups",when:"String problems, keys",example:"String s = 'hello';"},
-  "SB": {desc:"StringBuilder — mutable string buffer",when:"Building strings efficiently, O(1) append",example:"sb.append(c); String result = sb.toString();"},
-  "Anagram": {desc:"Words with same letters rearranged",when:"Grouping anagrams, frequency matching",example:"Sort or compare letter counts"},
-  "Palindrome": {desc:"String reads same forwards/backwards",when:"Palindrome checking, expansion",example:"while(l<r && s[l]==s[r]){ l++; r--; }"},
-  "HashMap": {desc:"Key-value hash table, O(1) avg lookup",when:"Frequency count, prefix sum map, index storage",example:"map.put(x, map.getOrDefault(x,0)+1)"},
-  "HashSet": {desc:"Unique elements, O(1) avg lookup",when:"Duplicate detection, existence checks",example:"set.add(x); set.contains(x);"},
-  "ArrayList": {desc:"Dynamic array — O(1) append amortized",when:"Collections of unknown size",example:"list.add(x); for(int v:list){}"},
-  "PQ": {desc:"Priority queue (heap) — O(log n) operations",when:"Top K, frequency sorting, greedy",example:"pq.offer(x); x = pq.poll();"},
-  "TM/TS": {desc:"TreeMap/TreeSet — sorted with O(log n) ops",when:"Sorted iteration, floor/ceiling",example:"tm.floorKey(k); ts.ceiling(v);"},
-  "Sliding": {desc:"Sliding window pattern for substring/subarray",when:"Longest substring, window max/min",example:"while(right<n){ expand; shrink if needed; }"},
-  "Mono": {desc:"Monotonic stack/deque for next greater/smaller",when:"Next greater element, histogram problems",example:"while(!stk.empty()&&nums[stk.peek()]<nums[i])..."},
-  "BT": {desc:"Backtracking — recursive exploration with undo",when:"Subsets, permutations, combinations",example:"path.add(x); backtrack(); path.remove(x);"},
-  "Top K": {desc:"Find K largest/smallest elements",when:"Top K frequent, closest points",example:"Use min-heap for K largest"},
-  "BFS": {desc:"Breadth-first search — level order traversal",when:"Shortest path unweighted, level order",example:"Queue q; q.offer(start); while(!q.empty()){}"},
-  "DFS": {desc:"Depth-first search — recursive exploration",when:"All paths, connected components, backtracking",example:"void dfs(node){ visited[node]=true; for(nei)dfs(nei); }"},
-  "BS": {desc:"Binary search on sorted arrays or answer space",when:"Searching, finding boundaries, monotonic predicates",example:"while(l<=r){ mid=l+(r-l)/2; if(arr[mid]==t)return mid; }"},
-  "UF": {desc:"Union Find (DSU) — O(α) connectivity queries",when:"Connected components, cycle detection",example:"find(x); union(a,b);"},
-  "Dij": {desc:"Dijkstra's algorithm — shortest path weighted",when:"Shortest path in weighted graphs",example:"PriorityQueue<int[]> pq; int[] dist;"},
-  "DP": {desc:"Dynamic programming — memoization or tabulation",when:"Optimization problems, overlapping subproblems",example:"dp[i] = Math.max(dp[i-1], current+dp[i-2]);"},
-  "Deque": {desc:"Double-ended queue — ArrayDeque",when:"Stack, deque, sliding window max/min",example:"dq.addFirst(x); dq.pollLast();"}
+  "int[]": {desc:"Integer array — fixed size, contiguous memory",when:"Storing integers, fixed-size collections",whyItWorks:"Contiguous memory means O(1) random access by index. Fixed size avoids allocation overhead, making it the fastest structure for iteration-heavy problems.",example:"int[] nums = new int[n];"},
+  "char[]": {desc:"Character array — for string manipulation",when:"String problems, char processing",whyItWorks:"Direct character access via index is faster than String substring operations. Arrays avoid immutability overhead when you need to modify characters in place.",example:"char[] chars = s.toCharArray();"},
+  "int[][]": {desc:"2D integer array — matrix",when:"Grid problems, DP tables",whyItWorks:"2D contiguous layout allows O(1) access to any cell by row and column. Cache-friendly for iteration and maintains spatial locality.",example:"int[][] grid = new int[m][n];"},
+  "Two Ptrs": {desc:"Two indices moving toward each other",when:"Sorted arrays, palindromes, partitions",whyItWorks:"Two pointers eliminate the need for nested loops by exploiting sorted order. They converge in O(n) time with two-pointer geometry reducing the search space.",example:"while(l<r){ if(ok) l++; else r--; }"},
+  "Prefix Sum": {desc:"Cumulative sum array for range queries",when:"Subarray sum, range sum queries",whyItWorks:"Pre-computing cumulative sums trades O(n) space for O(1) range query time. Any subarray sum becomes a simple subtraction instead of iterating all elements.",example:"prefix[i] = prefix[i-1] + nums[i];"},
+  "String": {desc:"Immutable string — use for lookups",when:"String problems, keys",whyItWorks:"Strings are immutable and optimized for hashing and comparison in Java. Using String as a key or lookup value is safer and faster than character arrays.",example:"String s = 'hello';"},
+  "SB": {desc:"StringBuilder — mutable string buffer",when:"Building strings efficiently, O(1) append",whyItWorks:"StringBuilder builds a mutable character buffer with O(1) amortized append. String += creates a new String each iteration (O(n) per append), making StringBuilder O(n) total vs O(n²) overall.",example:"sb.append(c); String result = sb.toString();"},
+  "Anagram": {desc:"Words with same letters rearranged",when:"Grouping anagrams, frequency matching",whyItWorks:"Words with identical letter counts are anagrams. Detecting this via sorting or frequency array lets you group words in one pass.",example:"Sort or compare letter counts"},
+  "Palindrome": {desc:"String reads same forwards/backwards",when:"Palindrome checking, expansion",whyItWorks:"A palindrome mirrors around its center. Two pointers converging from both ends check the mirror property in O(n) time, exploiting the symmetry.",example:"while(l<r && s[l]==s[r]){ l++; r--; }"},
+  "HashMap": {desc:"Key-value hash table, O(1) avg lookup",when:"Frequency count, prefix sum map, index storage",whyItWorks:"Hash function converts keys to array indices in O(1) average time. This turns any 'have I seen this before?' question from O(n) scan to O(1) lookup.",example:"map.put(x, map.getOrDefault(x,0)+1)"},
+  "HashSet": {desc:"Unique elements, O(1) avg lookup",when:"Duplicate detection, existence checks",whyItWorks:"Set membership tested via hash function in O(1) average time. Duplicates are rejected automatically, making HashSet ideal for existence queries.",example:"set.add(x); set.contains(x);"},
+  "ArrayList": {desc:"Dynamic array — O(1) append amortized",when:"Collections of unknown size",whyItWorks:"Amortized O(1) append means the cost per element is constant over many operations. Dynamic resizing (doubling capacity) spreads allocation cost across multiple additions.",example:"list.add(x); for(int v:list){}"},
+  "PQ": {desc:"Priority queue (heap) — O(log n) operations",when:"Top K, frequency sorting, greedy",whyItWorks:"Heap structure maintains the smallest (or largest) element at the root, reachable in O(1). Heap property ensures O(log n) insertion and removal.",example:"pq.offer(x); x = pq.poll();"},
+  "TM/TS": {desc:"TreeMap/TreeSet — sorted with O(log n) ops",when:"Sorted iteration, floor/ceiling",whyItWorks:"Tree structure (Red-Black internally in Java) maintains sorted order while keeping insertions and lookups at O(log n). This is slower than HashMap but enables range queries.",example:"tm.floorKey(k); ts.ceiling(v);"},
+  "Sliding": {desc:"Sliding window pattern for substring/subarray",when:"Longest substring, window max/min",whyItWorks:"Window maintains a contiguous subarray and slides it forward. Tracking the window's sum or state incrementally avoids redundant O(n) recalculations.",example:"while(right<n){ expand; shrink if needed; }"},
+  "Mono": {desc:"Monotonic stack/deque for next greater/smaller",when:"Next greater element, histogram problems",whyItWorks:"By maintaining a sorted invariant, each element enters and exits the stack exactly once, giving O(n) total. The stack naturally tracks unanswered questions about previous elements.",example:"while(!stk.empty()&&nums[stk.peek()]<nums[i])..."},
+  "BT": {desc:"Backtracking — recursive exploration with undo",when:"Subsets, permutations, combinations",whyItWorks:"Recursion with undo explores all branches exhaustively. Backtracking prunes branches early and restores state, turning exponential problems into tractable searches.",example:"path.add(x); backtrack(); path.remove(x);"},
+  "Top K": {desc:"Find K largest/smallest elements",when:"Top K frequent, closest points",whyItWorks:"Min-heap of size K maintains the K largest elements. New elements are compared against the smallest in the heap, updating in O(log K) time.",example:"Use min-heap for K largest"},
+  "BFS": {desc:"Breadth-first search — level order traversal",when:"Shortest path unweighted, level order",whyItWorks:"Processing nodes level-by-level guarantees you find the shortest path first in unweighted graphs. Each level represents one more step from the source.",example:"Queue q; q.offer(start); while(!q.empty()){}"},
+  "DFS": {desc:"Depth-first search — recursive exploration",when:"All paths, connected components, backtracking",whyItWorks:"Recursive exploration visits all reachable nodes and edges exactly once in O(V+E) time. The call stack naturally tracks the current path.",example:"void dfs(node){ visited[node]=true; for(nei)dfs(nei); }"},
+  "BS": {desc:"Binary search on sorted arrays or answer space",when:"Searching, finding boundaries, monotonic predicates",whyItWorks:"Binary search eliminates half the search space with each comparison. This turns O(n) linear search into O(log n), or finds the boundary of a monotonic predicate.",example:"while(l<=r){ mid=l+(r-l)/2; if(arr[mid]==t)return mid; }"},
+  "UF": {desc:"Union Find (DSU) — O(α) connectivity queries",when:"Connected components, cycle detection",whyItWorks:"Path compression and union by rank keep each find/union operation nearly O(1). This builds equivalence classes and detects cycles efficiently.",example:"find(x); union(a,b);"},
+  "Dij": {desc:"Dijkstra's algorithm — shortest path weighted",when:"Shortest path in weighted graphs",whyItWorks:"Priority queue orders processing by distance; Dijkstra always expands the nearest unvisited node next. This greedy choice guarantees shortest paths in non-negative graphs.",example:"PriorityQueue<int[]> pq; int[] dist;"},
+  "DP": {desc:"Dynamic programming — memoization or tabulation",when:"Optimization problems, overlapping subproblems",whyItWorks:"Overlapping subproblems mean the same computation repeats many times. Storing results in a table avoids recomputation, turning exponential recursion into polynomial time.",example:"dp[i] = Math.max(dp[i-1], current+dp[i-2]);"},
+  "Deque": {desc:"Double-ended queue — ArrayDeque",when:"Stack, deque, sliding window max/min",whyItWorks:"Double-ended access in O(1) supports both stack (LIFO) and queue (FIFO) operations. ArrayDeque is faster than Stack or LinkedList for both.",example:"dq.addFirst(x); dq.pollLast();"}
 } satisfies MindMapNodeDetailMap;

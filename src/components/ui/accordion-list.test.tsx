@@ -18,6 +18,7 @@ describe("AccordionList", () => {
             body: "Useful for indexes and counters",
             code: "int value = 1;",
             trap: "Use long for big sums.",
+            edgeCases: null,
           },
         ]}
       />,

@@ -28,13 +28,11 @@ export function ReferenceView({
     <div className="app-page page-stack">
       <section className="page-header">
         <div className="page-header-copy">
-          <p className="eyebrow">Reference</p>
-          <h1 className="page-title">
-            Keep the Java and DSA essentials within reach.
-          </h1>
+          <p className="eyebrow">Reference library</p>
+          <h1 className="page-title">Java &amp; DSA reference</h1>
           <p className="page-description">
-            Use this space for quick refreshers before practice, interviews, and
-            revision sessions when you need the right structure fast.
+            Find the right structure, syntax, pattern, or trap without leaving
+            your study flow.
           </p>
         </div>
       </section>
@@ -117,7 +115,7 @@ export function ReferenceView({
               ))}
             </div>
 
-            <div className="notice">
+            <div className="notice notice-positive">
               <strong>Golden rule:</strong> understand the problem, choose the
               right structure, write from memory, and then handle the edge cases
               calmly.
@@ -135,8 +133,8 @@ export function ReferenceView({
             </h2>
             <p className="section-copy">
               When you see a new problem and don&apos;t know where to start, run
-              through this decision tree. Each question narrows the pattern space
-              so you reach a strategy faster.
+              through this decision tree. Each question narrows the pattern
+              space so you reach a strategy faster.
             </p>
           </div>
 
@@ -144,17 +142,17 @@ export function ReferenceView({
             {decisionFramework.map((step, index) => (
               <details className="accordion-item" key={step.question}>
                 <summary className="accordion-trigger">
-                  <span className="badge accent-purple">{index + 1}</span>
+                  <span className="badge decision-index">{index + 1}</span>
                   <span className="accordion-title">{step.question}</span>
                   <span aria-hidden className="accordion-chevron">
                     ▶
                   </span>
                 </summary>
                 <div className="accordion-panel">
-                  <div className="notice">
+                  <div className="notice notice-positive">
                     <strong>Yes:</strong> {step.ifYes}
                   </div>
-                  <div className="notice">
+                  <div className="notice notice-neutral">
                     <strong>No:</strong> {step.ifNo}
                   </div>
                 </div>
@@ -162,7 +160,7 @@ export function ReferenceView({
             ))}
           </div>
 
-          <div className="notice">
+          <div className="notice notice-info">
             <strong>Tip:</strong> These questions are ordered roughly by how
             common the patterns are. In a real interview, run through them
             mentally in under 60 seconds before writing any code.
@@ -236,7 +234,7 @@ export function ReferenceView({
             </div>
 
             {referenceNotices.map((notice) => (
-              <div className="notice" key={notice.title}>
+              <div className="notice notice-warning" key={notice.title}>
                 <strong>{notice.title}:</strong> {notice.body}
               </div>
             ))}

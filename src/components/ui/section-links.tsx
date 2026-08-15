@@ -27,7 +27,7 @@ export function SectionLinks<TValue extends string>({
       {options.map((option) => {
         const href =
           option.value === "all"
-            ? basePath
+            ? `${basePath}?${paramName}=all`
             : `${basePath}?${paramName}=${option.value}`;
         const isActive = option.value === activeValue;
 

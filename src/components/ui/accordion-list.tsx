@@ -11,12 +11,7 @@ export function AccordionList({ items }: AccordionListProps) {
       {items.map((item, index) => (
         <details className="accordion-item" key={`${item.title}-${index}`}>
           <summary className="accordion-trigger">
-            <span
-              className="badge"
-              style={{ background: item.tagBg, color: item.tagC }}
-            >
-              {item.tag}
-            </span>
+            <span className="badge reference-tag">{item.tag}</span>
             <span className="accordion-title">{item.title}</span>
             <span aria-hidden className="accordion-chevron">
               ▶
@@ -29,12 +24,12 @@ export function AccordionList({ items }: AccordionListProps) {
             />
             <CodeBlock html={item.code} />
             {item.trap ? (
-              <div className="notice">
+              <div className="notice notice-warning">
                 <strong>Trap:</strong> {item.trap}
               </div>
             ) : null}
             {item.edgeCases ? (
-              <div className="notice">
+              <div className="notice notice-neutral">
                 <strong>Edge cases:</strong> {item.edgeCases}
               </div>
             ) : null}

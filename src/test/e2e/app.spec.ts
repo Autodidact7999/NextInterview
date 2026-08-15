@@ -17,6 +17,15 @@ test("migrates legacy localStorage and keeps completed practice state", async ({
 
   await page.goto("/practice");
 
+  const runSummary = page.locator(
+    'section[aria-labelledby="current-run-title"]',
+  );
+  await expect(runSummary).toContainText(
+    "Your schedule is outside the active 84-day run",
+  );
+  await expect(runSummary).toContainText("Day 1 is Apr 1, 2026");
+  await expect(runSummary).toContainText("Valid Palindrome");
+
   await expect(
     page.getByLabel("Mark Two Sum complete for Day 1"),
   ).toBeChecked();
@@ -40,6 +49,11 @@ test("supports route navigation on desktop and mobile", async ({ page }) => {
 
   await page.setViewportSize({ width: 390, height: 844 });
   await page.goto("/");
+  const mobileHomeLink = page
+    .locator("header")
+    .getByRole("link", { name: "NextInterview home" });
+  await expect(mobileHomeLink).toBeVisible();
+  await expect(mobileHomeLink).toContainText("NextInterview");
   await page.getByRole("link", { name: "Reference" }).last().click();
   await expect(page).toHaveURL(/\/reference$/);
 });
@@ -57,6 +71,7 @@ test("persists updates, cycles tracker state, and respects dark mode", async ({
   const checkbox = page.getByLabel("Mark Two Sum complete for Day 1");
   await checkbox.check();
   await page.reload();
+  await expect(checkbox).toHaveCount(1);
   await expect(checkbox).toBeChecked();
 
   await page.goto("/progress");

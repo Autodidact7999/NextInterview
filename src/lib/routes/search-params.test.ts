@@ -15,6 +15,7 @@ describe("search param parsing", () => {
   });
 
   it("normalizes the practice week filter", () => {
+    expect(parsePracticeWeek(null)).toBe(1);
     expect(parsePracticeWeek("all")).toBe("all");
     expect(parsePracticeWeek("4")).toBe(4);
     expect(parsePracticeWeek("99")).toBe("all");

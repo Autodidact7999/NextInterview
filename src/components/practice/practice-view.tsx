@@ -62,6 +62,10 @@ export function PracticeView({
   );
   const selectedWeekLabel =
     selectedWeek === "all" ? "All 12 weeks" : `Week ${selectedWeek}`;
+  const selectedWeekTitle =
+    selectedWeek === "all"
+      ? "The full 84-day practice plan"
+      : `Week ${selectedWeek}: ${practiceWeekMeta[selectedWeek].title}`;
   const dayCards = filteredDays.map((day) => {
     const meta = practiceWeekMeta[day.week];
     const scheduledDate = progress.startDate
@@ -114,14 +118,11 @@ export function PracticeView({
       <section className={styles.hero}>
         <div className={styles.heroMain}>
           <div>
-            <p className="eyebrow">Practice</p>
-            <h1 className={styles.heroTitle}>
-              Make the 84-day plan feel clear, calm, and easy to follow.
-            </h1>
+            <p className="eyebrow">Practice workspace</p>
+            <h1 className={styles.heroTitle}>{selectedWeekTitle}</h1>
             <p className={styles.heroCopy}>
-              This page should read like a guided training block, not a pile of
-              generic cards. The layout is now built around scanning the day,
-              solving the problems, and opening notes only when you need them.
+              Work one session at a time. Solve first, explain the pattern out
+              loud, then open the notes only when you need them.
             </p>
           </div>
 
@@ -142,15 +143,18 @@ export function PracticeView({
               Choose start date
             </button>
             <Link className="button-primary" href="/progress">
-              Check momentum
+              View progress
             </Link>
           </div>
         </div>
 
         <aside className={styles.heroAside}>
-          <div className={styles.focusCard}>
+          <section
+            aria-labelledby="current-run-title"
+            className={styles.runSummary}
+          >
             <span className={styles.focusLabel}>Current run</span>
-            <h2 className={styles.focusTitle}>
+            <h2 className={styles.focusTitle} id="current-run-title">
               {todayCard
                 ? `Day ${todayCard.day.day} is live`
                 : progress.startDate
@@ -178,7 +182,7 @@ export function PracticeView({
                 </span>
               </div>
             ) : null}
-          </div>
+          </section>
 
           <div className={styles.metricsGrid}>
             <div className={styles.metricCard}>
@@ -226,12 +230,10 @@ export function PracticeView({
       <section className={styles.filters}>
         <div className={styles.filtersHead}>
           <div>
-            <h2 className={styles.filtersTitle}>
-              Jump through the plan by week
-            </h2>
+            <h2 className={styles.filtersTitle}>Choose a week</h2>
             <p className={styles.filtersCopy}>
-              Browse the full sprint or narrow the page to one week when you
-              want a tighter reading flow.
+              The default view stays focused on one week. Open all 12 weeks only
+              when you need the full sequence.
             </p>
           </div>
           <span className={styles.scopeBadge}>
@@ -254,12 +256,11 @@ export function PracticeView({
       {!progress.startDate ? (
         <div className={styles.startNotice}>
           <strong className={styles.startNoticeTitle}>
-            Choose a Day 1 date to turn this into a live schedule.
+            Add Day 1 to highlight today’s session.
           </strong>
           <p className={styles.startNoticeCopy}>
-            You can still browse every week, but the page becomes much more
-            useful once today, pacing, and streaks are anchored to a real
-            calendar.
+            The plan works without a date, but scheduling adds today markers,
+            pacing, and streak context.
           </p>
         </div>
       ) : null}
@@ -481,7 +482,9 @@ export function PracticeView({
                                     </div>
                                     {solution.approach ? (
                                       <div className={styles.approachBlock}>
-                                        <strong className={styles.approachLabel}>
+                                        <strong
+                                          className={styles.approachLabel}
+                                        >
                                           How to think about it
                                         </strong>
                                         <p className={styles.approachCopy}>

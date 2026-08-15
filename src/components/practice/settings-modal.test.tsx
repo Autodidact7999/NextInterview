@@ -22,6 +22,8 @@ describe("SettingsModal", () => {
 
     render(<SettingsModal onClose={onClose} open />);
 
+    expect(screen.getByLabelText("Start date")).toHaveFocus();
+
     await user.clear(screen.getByLabelText("Start date"));
     await user.type(screen.getByLabelText("Start date"), "2026-04-06");
     await user.click(screen.getByRole("button", { name: "Save start date" }));

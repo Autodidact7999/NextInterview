@@ -45,7 +45,11 @@ export function parseReferenceSection(
 export function parsePracticeWeek(
   value: string | null | undefined,
 ): PracticeWeekFilter {
-  if (value === "all" || value == null || value.length === 0) {
+  if (value == null || value.length === 0) {
+    return 1;
+  }
+
+  if (value === "all") {
     return "all";
   }
 

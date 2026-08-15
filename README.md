@@ -46,6 +46,11 @@ sign-in option.
 6. Copy `.env.example` to `.env.local`, then fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from **Project Settings > API**. Do not use the service-role key in the browser.
 7. Restart `npm run dev`. The Google sign-in control appears in the app header when both variables are present.
 
+Vercel's Supabase integration supplies `SUPABASE_URL` and
+`SUPABASE_PUBLISHABLE_KEY` automatically. The Next.js build maps those values
+to the browser-safe variables used by this app. `SUPABASE_SECRET_KEY` is never
+exposed to the browser.
+
 On the first sign-in, the newer of browser and cloud progress is retained. The
 signed-in header then indicates whether the latest change has been saved.
 

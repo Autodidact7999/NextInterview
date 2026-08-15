@@ -103,6 +103,10 @@ export const progressStorage = {
     return writeProgress(nextState);
   },
 
+  replace(progress: ProgressState): ProgressState {
+    return writeProgress(progress);
+  },
+
   setStartDate(date: string | null): ProgressState {
     const current = this.getProgress();
     return writeProgress({

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { AccountControl } from "@/components/auth/account-control";
 import styles from "@/components/layout/app-shell.module.css";
 
 type NavIconName =
@@ -221,7 +222,10 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             <p className={styles.desktopEyebrow}>Current space</p>
             <p className={styles.desktopTitle}>{currentItem.label}</p>
           </div>
-          <span className={styles.desktopBadge}>{currentItem.caption}</span>
+          <div className={styles.headerActions}>
+            <span className={styles.desktopBadge}>{currentItem.caption}</span>
+            <AccountControl />
+          </div>
         </header>
 
         <header className={styles.mobileHeader}>
@@ -237,6 +241,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <div className={styles.mobileContext}>
             <p className={styles.mobileContextLabel}>Current space</p>
             <p className={styles.mobileContextTitle}>{currentItem.label}</p>
+            <AccountControl />
           </div>
         </header>
 

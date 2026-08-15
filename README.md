@@ -29,6 +29,26 @@ npm run test
 npm run format:check
 ```
 
+## Google Sign-In And Cloud Progress
+
+Progress stays in the browser until the user chooses **Sign in with Google**.
+After sign-in, the app stores one private progress record for that Google
+account and keeps it synchronized across devices. Google is the only configured
+sign-in option.
+
+### Setup
+
+1. Create a [Supabase project](https://supabase.com/dashboard) and open its SQL Editor.
+2. Run the contents of [`supabase/progress.sql`](supabase/progress.sql). This creates the progress table and row-level security policies, so users can only access their own progress.
+3. In Supabase, open **Authentication > Providers > Google**, enable Google, and add the OAuth client ID and client secret created in Google Cloud.
+4. In [Google Cloud Console](https://console.cloud.google.com/apis/credentials), create an OAuth 2.0 Web application. Add the Supabase callback URL shown in the Google provider screen, usually `https://<project-ref>.supabase.co/auth/v1/callback`, as an authorized redirect URI.
+5. In Supabase, open **Authentication > URL Configuration** and add `http://localhost:3000` to Redirect URLs. Add `http://localhost:3001` too when using the current local server, plus the production URL when deployed.
+6. Copy `.env.example` to `.env.local`, then fill in `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` from **Project Settings > API**. Do not use the service-role key in the browser.
+7. Restart `npm run dev`. The Google sign-in control appears in the app header when both variables are present.
+
+On the first sign-in, the newer of browser and cloud progress is retained. The
+signed-in header then indicates whether the latest change has been saved.
+
 ## Notes
 
 - Legacy browser progress is migrated from the old localStorage keys on first load.

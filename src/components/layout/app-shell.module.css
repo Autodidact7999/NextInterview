@@ -225,7 +225,8 @@
 .runMeta,
 .topbar,
 .topbarContext,
-.topbarStatus {
+.topbarStatus,
+.topbarActions {
   display: flex;
   align-items: center;
 }
@@ -300,6 +301,10 @@
   font-size: 0.72rem;
 }
 
+.topbarActions {
+  gap: 0.9rem;
+}
+
 .statusDot {
   width: 0.4rem;
   height: 0.4rem;
@@ -309,6 +314,7 @@
 }
 
 .mobileHeader,
+.mobileActions,
 .mobileNav {
   display: none;
 }
@@ -343,6 +349,12 @@
     border-bottom: 1px solid var(--border-subtle);
     background: color-mix(in oklch, var(--bg-canvas) 90%, transparent);
     backdrop-filter: blur(18px);
+  }
+
+  .mobileActions {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
   }
 
   .mobileBrand {
@@ -421,6 +433,12 @@
   .mobileNavItemActive {
     background: var(--surface-muted);
     color: var(--accent-text);
+  }
+}
+
+@media (max-width: 640px) {
+  .mobileProgress {
+    display: none;
   }
 }
 

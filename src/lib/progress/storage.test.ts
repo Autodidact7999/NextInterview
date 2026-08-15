@@ -55,4 +55,17 @@ describe("progressStorage", () => {
       progressStorage.cycleRoadmapDayStatus(5).roadmapStatuses["roadmap-5"],
     ).toBe("none");
   });
+
+  it("replaces the local record with a synchronized progress record", () => {
+    const remote = {
+      startDate: "2026-05-01",
+      completedProblems: { day1_prob1: true },
+      roadmapStatuses: { "roadmap-1": "sd" as const },
+      legacyMigrated: true,
+      updatedAt: "2026-05-02T00:00:00.000Z",
+    };
+
+    expect(progressStorage.replace(remote)).toEqual(remote);
+    expect(progressStorage.getProgress()).toEqual(remote);
+  });
 });

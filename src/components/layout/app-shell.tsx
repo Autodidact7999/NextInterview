@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { AccountControl } from "@/components/auth/account-control";
 import styles from "@/components/layout/app-shell.module.css";
 import { practiceDayPlan } from "@/content/practice";
 import { useProgress } from "@/lib/progress/context";
@@ -140,10 +141,13 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             </span>
             <strong>{currentItem.label}</strong>
           </div>
-          <span className={styles.topbarStatus}>
-            <span aria-hidden className={styles.statusDot} />
-            {hydrated ? currentItem.caption : "Syncing your plan"}
-          </span>
+          <div className={styles.topbarActions}>
+            <span className={styles.topbarStatus}>
+              <span aria-hidden className={styles.statusDot} />
+              {hydrated ? currentItem.caption : "Syncing your plan"}
+            </span>
+            <AccountControl />
+          </div>
         </header>
 
         <header className={styles.mobileHeader}>
@@ -158,9 +162,12 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <strong>{currentItem.label}</strong>
             </span>
           </Link>
-          <span className={styles.mobileProgress}>
-            {hydrated ? `${practicePercent}%` : "—"}
-          </span>
+          <div className={styles.mobileActions}>
+            <span className={styles.mobileProgress}>
+              {hydrated ? `${practicePercent}%` : "—"}
+            </span>
+            <AccountControl />
+          </div>
         </header>
 
         <main className={styles.mainContent} id="main-content">

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Mono, Manrope, Space_Grotesk } from "next/font/google";
 
 import { AppShell } from "@/components/layout/app-shell";
+import { AuthProvider } from "@/lib/auth/context";
 import { ProgressProvider } from "@/lib/progress/context";
 
 import "./globals.css";
@@ -39,9 +40,11 @@ export default function RootLayout({
       className={`${manrope.variable} ${spaceGrotesk.variable} ${plexMono.variable}`}
     >
       <body>
-        <ProgressProvider>
-          <AppShell>{children}</AppShell>
-        </ProgressProvider>
+        <AuthProvider>
+          <ProgressProvider>
+            <AppShell>{children}</AppShell>
+          </ProgressProvider>
+        </AuthProvider>
       </body>
     </html>
   );

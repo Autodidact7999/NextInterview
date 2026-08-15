@@ -1,0 +1,117 @@
+.control,
+.account {
+  display: grid;
+  justify-items: end;
+  gap: 0.3rem;
+}
+
+.googleButton,
+.signOut {
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text-primary);
+  font-size: 0.78rem;
+  font-weight: 650;
+}
+
+.googleButton {
+  display: inline-flex;
+  min-height: 2.25rem;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem 0.7rem;
+}
+
+.googleButton:hover,
+.googleButton:focus-visible,
+.signOut:hover,
+.signOut:focus-visible {
+  border-color: var(--purple);
+  background: var(--purple-bg);
+}
+
+.googleButton:disabled,
+.signOut:disabled {
+  cursor: wait;
+  opacity: 0.65;
+}
+
+.googleMark {
+  display: grid;
+  width: 1.2rem;
+  height: 1.2rem;
+  place-items: center;
+  border-radius: 50%;
+  background: #ffffff;
+  color: #4285f4;
+  font-family: Arial, sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.account {
+  position: relative;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+}
+
+.identity {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+.avatar {
+  display: grid;
+  width: 1.8rem;
+  height: 1.8rem;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--purple);
+  border-radius: 50%;
+  background: var(--purple-bg);
+  color: var(--purple-text);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.name {
+  max-width: 10rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+  font-weight: 600;
+}
+
+.sync {
+  color: var(--green-text);
+  font-size: 0.68rem;
+  white-space: nowrap;
+}
+
+.signOut {
+  padding: 0.32rem 0.55rem;
+  color: var(--text-secondary);
+}
+
+.status,
+.error {
+  color: var(--text-tertiary);
+  font-size: 0.72rem;
+}
+
+.error {
+  grid-column: 1 / -1;
+  color: var(--red-text);
+}
+
+@media (max-width: 640px) {
+  .name,
+  .sync {
+    display: none;
+  }
+}

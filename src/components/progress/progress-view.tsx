@@ -24,14 +24,14 @@ export function ProgressView() {
   const practiceStats = computePracticeStats(progress, practiceDayPlan);
 
   return (
-    <div className="app-page page-stack">
+    <div className="app-page page-stack progress-page">
       <section className="page-header">
         <div className="page-header-copy">
-          <p className="eyebrow">Progress</p>
-          <h1 className="page-title">Keep your momentum visible every week.</h1>
+          <p className="eyebrow">90-day history</p>
+          <h1 className="page-title">Progress tracker</h1>
           <p className="page-description">
-            Use this page to see what you&apos;ve actually done, protect your
-            streak, and spot where the next review session should land.
+            Log the work you actually finished, review your consistency, and
+            keep the next weak-area session visible.
           </p>
         </div>
       </section>
@@ -65,7 +65,7 @@ export function ProgressView() {
         </div>
       </section>
 
-      <section className="surface surface-inner page-stack">
+      <section className="surface surface-inner page-stack progress-tracker">
         <div>
           <p className="eyebrow">Tracker</p>
           <h2 className="section-title">
@@ -78,7 +78,7 @@ export function ProgressView() {
         </div>
 
         {monthLabels.map((label, monthIndex) => (
-          <div className="page-stack" key={label}>
+          <div className="page-stack progress-month" key={label}>
             <div className="problem-meta">
               <span>{label}</span>
               <span>{`${roadmapStats.monthProgress[monthIndex]}% complete`}</span>
@@ -89,6 +89,12 @@ export function ProgressView() {
                 const status =
                   progress.roadmapStatuses[getRoadmapStorageKey(dayNumber)] ??
                   "none";
+                const statusLabel =
+                  status === "dsa"
+                    ? "DSA logged"
+                    : status === "sd"
+                      ? "System design logged"
+                      : "Empty";
                 return (
                   <button
                     aria-label={`Roadmap day ${dayNumber}`}
@@ -96,6 +102,7 @@ export function ProgressView() {
                     data-status={status}
                     key={dayNumber}
                     onClick={() => cycleRoadmapDayStatus(dayNumber)}
+                    title={`Day ${dayNumber}: ${statusLabel}`}
                     type="button"
                   >
                     {dayNumber}
@@ -134,7 +141,7 @@ export function ProgressView() {
         </div>
       </section>
 
-      <section className="surface surface-inner page-stack">
+      <section className="surface surface-inner page-stack progress-guidance">
         <div>
           <p className="eyebrow">Keep it sustainable</p>
           <h2 className="section-title">

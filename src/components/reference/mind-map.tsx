@@ -7,7 +7,9 @@ import { mindMapEdges, mindMapLegend, mindMapNodes } from "@/content/mindmap";
 import { mindMapNodeDetails } from "@/content/reference";
 
 export function MindMap() {
-  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(
+    "HashMap",
+  );
   const detail = selectedNodeId ? mindMapNodeDetails[selectedNodeId] : null;
 
   return (
@@ -16,7 +18,7 @@ export function MindMap() {
         <svg
           aria-labelledby="mind-map-title"
           className="mindmap-svg"
-          role="img"
+          role="group"
           viewBox="0 0 900 560"
           xmlns="http://www.w3.org/2000/svg"
         >
@@ -51,6 +53,7 @@ export function MindMap() {
             return (
               <g
                 aria-label={node.id}
+                aria-pressed={isSelected}
                 className={`mindmap-node ${isSelected ? "mindmap-node-selected" : ""}`}
                 key={node.id}
                 onClick={() => setSelectedNodeId(node.id)}
@@ -110,7 +113,7 @@ export function MindMap() {
                   <strong>Why it works:</strong> {detail.whyItWorks}
                 </p>
               ) : null}
-              <div className="notice">
+              <div className="notice notice-info">
                 <strong>When:</strong> {detail.when}
               </div>
               <CodeBlock code={detail.example} />

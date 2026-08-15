@@ -1,520 +1,491 @@
-/* ─── Dashboard Page ─── */
-
 .page {
-  max-width: 1100px;
+  display: grid;
+  gap: 0;
+  padding-block: clamp(1.5rem, 3vw, 2.6rem) 4rem;
 }
-
-/* ─── Hero ─── */
 
 .hero {
   display: grid;
-  grid-template-columns: minmax(0, 1.3fr) minmax(16rem, 0.85fr);
-  gap: 1.5rem;
-  padding: 1.75rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-lg);
-  background: var(--surface);
-}
-
-.heroLead {
-  display: grid;
-  gap: 0.85rem;
-  align-content: start;
-}
-
-.heroTitle {
-  margin: 0;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: clamp(1.85rem, 4vw, 2.75rem);
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1.05;
-  max-width: 14ch;
+  grid-template-columns: minmax(0, 1.45fr) minmax(16rem, 0.72fr);
+  gap: clamp(2rem, 5vw, 5.5rem);
+  align-items: end;
+  padding: clamp(1rem, 2vw, 1.5rem) 0 clamp(2rem, 4vw, 3.5rem);
 }
 
 .heroCopy {
-  max-width: 44rem;
+  max-width: 49rem;
+}
+
+.title {
+  max-width: 15ch;
   margin: 0;
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--text-display);
+  font-weight: 690;
+  letter-spacing: -0.05em;
+  line-height: 0.99;
+}
+
+.description {
+  max-width: 43rem;
+  margin: 1rem 0 0;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: var(--text-base);
   line-height: 1.65;
 }
 
-.heroMeta {
+.actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.45rem;
+  gap: 0.6rem;
+  margin-top: 1.4rem;
 }
 
-.heroMetaPill {
-  display: inline-flex;
+.runPanel {
+  display: grid;
+  gap: 0.48rem;
+  padding: 1.15rem 0 0.15rem 1.25rem;
+  border-left: 1px solid var(--border-strong);
+}
+
+.runTopline,
+.runProgressMeta,
+.month > div:first-child {
+  display: flex;
   align-items: center;
-  padding: 0.35rem 0.6rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: 6px;
-  background: var(--surface-muted);
-  color: var(--text-secondary);
-  font-size: 0.78rem;
-  font-weight: 600;
+  justify-content: space-between;
 }
 
-/* ─── Hero Aside ─── */
-
-.heroAside {
-  display: grid;
-  gap: 0.65rem;
-  align-content: start;
-}
-
-.sessionCard,
-.progressCard,
-.metricCard,
-.todayPanel,
-.railCard,
-.quickSection {
-  border: 1px solid var(--border-subtle);
-  background: var(--surface);
-}
-
-.sessionCard {
-  display: grid;
-  gap: 0.55rem;
-  padding: 1rem;
-  border-radius: var(--radius-md);
-}
-
-.sessionLabel,
-.progressLabel,
-.metricLabel,
-.sessionReviewLabel {
+.runLabel,
+.runState,
+.metric > span,
+.sessionCount {
   color: var(--text-tertiary);
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.06em;
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
+  letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-.sessionTitle {
-  margin: 0;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
+.runState {
+  color: var(--accent-text);
 }
 
-.sessionCopy {
+.runValue {
+  margin-top: 0.4rem;
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--text-lg);
+  letter-spacing: -0.025em;
+}
+
+.runCopy,
+.reviewNote {
   margin: 0;
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.6;
+  font-size: var(--text-sm);
+  line-height: 1.55;
 }
 
-.sessionReview {
+.runProgress {
   display: grid;
-  gap: 0.1rem;
-  padding-top: 0.6rem;
-  border-top: 1px solid var(--border-subtle);
+  gap: 0.42rem;
+  margin-top: 0.75rem;
 }
 
-.sessionReviewTitle {
-  font-size: 0.88rem;
-  font-weight: 650;
+.runProgressMeta {
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
 }
 
-.sessionReviewMeta {
-  color: var(--text-tertiary);
-  font-size: 0.78rem;
-}
-
-/* ─── Progress Card ─── */
-
-.progressCard {
-  display: grid;
-  gap: 0.6rem;
-  padding: 0.85rem;
-  border-radius: var(--radius-md);
-}
-
-.progressRow {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 1rem;
-}
-
-.progressValue {
-  display: block;
-  margin-top: 0.2rem;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 1.65rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
-}
-
-.progressMeta {
-  color: var(--text-tertiary);
-  font-size: 0.78rem;
-  font-weight: 600;
-  text-align: right;
-}
-
-.progressTrack {
-  height: 5px;
+.progressTrack,
+.monthTrack {
+  height: 0.34rem;
   overflow: hidden;
   border-radius: 999px;
-  background: var(--surface-muted);
+  background: var(--surface-offset);
 }
 
-.progressFill {
+.progressTrack span,
+.monthTrack span {
+  display: block;
   height: 100%;
   border-radius: inherit;
-  background: var(--purple);
+  background: var(--accent);
+  transition: width 300ms ease;
 }
 
-/* ─── Metric Grid ─── */
-
-.metricGrid {
+.metrics {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0.65rem;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  border-block: 1px solid var(--border-subtle);
 }
 
-.metricCard {
+.metric {
   display: grid;
-  gap: 0.2rem;
-  padding: 0.85rem;
-  border-radius: var(--radius-md);
+  gap: 0.15rem;
+  padding: 1.2rem 1.25rem;
 }
 
-.metricValue {
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 1.25rem;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
+.metric:first-child {
+  padding-left: 0;
 }
 
-.metricCopy {
-  color: var(--text-tertiary);
-  font-size: 0.75rem;
-  line-height: 1.45;
+.metric + .metric {
+  border-left: 1px solid var(--border-subtle);
 }
 
-/* ─── Board Grid ─── */
-
-.boardGrid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.2fr) minmax(16rem, 0.8fr);
-  gap: 1rem;
+.metric strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(1.35rem, 2vw, 1.8rem);
+  font-weight: 690;
+  letter-spacing: -0.04em;
 }
 
-.todayPanel,
-.railCard,
-.quickSection {
-  border-radius: var(--radius-lg);
-}
-
-.todayPanel {
-  padding: 1.25rem;
-}
-
-.panelHead {
-  display: grid;
-  gap: 0.35rem;
-  margin-bottom: 1rem;
-}
-
-.panelTitle,
-.railTitle,
-.quickTitle {
-  margin: 0;
-  font-family: var(--font-display), system-ui, sans-serif;
-  font-size: 1.15rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
-}
-
-.panelCopy,
-.quickCopy {
-  margin: 0.35rem 0 0;
+.metric small {
   color: var(--text-secondary);
-  font-size: 0.9rem;
-  line-height: 1.6;
+  font-size: var(--text-xs);
 }
 
-/* ─── Today Flow ─── */
-
-.todayFlow {
+.workspace {
   display: grid;
-  gap: 0.5rem;
+  grid-template-columns: minmax(0, 1.45fr) minmax(17rem, 0.65fr);
+  gap: clamp(1.5rem, 4vw, 4rem);
+  padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-.flowItem {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr) auto;
-  gap: 0.75rem;
-  align-items: start;
-  padding: 0.85rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--surface-muted);
-}
-
-.flowIndex {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 6px;
-  background: var(--purple-bg);
-  color: var(--purple-text);
-  font-size: 0.75rem;
-  font-weight: 700;
-}
-
-.flowContent {
+.session,
+.reviewPanel {
   min-width: 0;
 }
 
-.flowMeta,
-.progressListMeta {
+.reviewPanel {
+  display: grid;
+  align-content: start;
+  gap: 1.25rem;
+  padding-left: 1.5rem;
+  border-left: 1px solid var(--border-subtle);
+}
+
+.sectionHeader {
   display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-  align-items: center;
-  color: var(--text-tertiary);
-  font-size: 0.78rem;
+  align-items: start;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.35rem;
 }
 
-.flowTitle,
-.protocolTitle,
-.quickCardTitle,
-.specialTitle {
-  margin: 0.35rem 0 0.2rem;
-  font-size: 0.92rem;
-  font-weight: 650;
-}
-
-.flowCopy,
-.protocolCopy,
-.quickCardCopy,
-.specialCopy,
-.emptyCopy {
+.sectionTitle {
   margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.55;
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--text-xl);
+  font-weight: 660;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
 }
 
-.flowLink {
-  align-self: center;
-  display: inline-flex;
+.sessionCount {
+  flex: 0 0 auto;
+  padding: 0.35rem 0.55rem;
+  border-radius: var(--radius-xs);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.problemList {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.problemRow {
+  display: grid;
+  grid-template-columns: 2rem minmax(0, 1fr) auto;
+  gap: 0.85rem;
   align-items: center;
-  justify-content: center;
-  min-width: 4rem;
-  padding: 0.45rem 0.7rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.problemIndex {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
+}
+
+.problemCopy {
+  display: grid;
+  gap: 0.15rem;
+}
+
+.problemCopy a {
+  width: fit-content;
+  font-weight: 740;
+}
+
+.problemCopy a:hover,
+.problemCopy a:focus-visible,
+.textLink:hover,
+.textLink:focus-visible {
+  color: var(--accent-text);
+}
+
+.problemCopy span {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
+}
+
+.completion {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.48rem 0.65rem;
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-sm);
-  background: var(--surface);
-  color: var(--text-primary);
-  font-size: 0.8rem;
-  font-weight: 600;
-  transition:
-    background-color 0.12s ease,
-    border-color 0.12s ease;
-}
-
-.flowLink:hover,
-.flowLink:focus-visible {
-  background: var(--surface-muted);
-  border-color: var(--border-strong);
-}
-
-/* ─── Special & Empty Cards ─── */
-
-.specialCard,
-.emptyCard,
-.noteCard {
-  display: grid;
-  gap: 0.3rem;
-  padding: 1rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--surface-muted);
-}
-
-.specialLabel {
-  color: var(--purple-text);
-  font-size: 0.72rem;
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
   font-weight: 700;
-  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.completion input {
+  width: 0.9rem;
+  height: 0.9rem;
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.completionDone {
+  border-color: color-mix(in oklch, var(--accent) 35%, transparent);
+  background: var(--accent-soft);
+  color: var(--accent-text);
+}
+
+.guidedSession {
+  display: grid;
+  gap: 0.45rem;
+  padding: 1.4rem;
+  border-radius: var(--radius-lg);
+  background: var(--surface-muted);
+}
+
+.guidedSession span {
+  color: var(--accent-text);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
   text-transform: uppercase;
 }
 
-.emptyTitle {
-  font-size: 0.92rem;
+.guidedSession strong {
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--text-lg);
 }
 
-/* ─── Info Rail ─── */
-
-.infoRail {
-  display: grid;
-  gap: 0.75rem;
-}
-
-.railCard {
-  display: grid;
-  gap: 0.85rem;
-  padding: 1.1rem;
-}
-
-.progressList {
-  display: grid;
-  gap: 0.65rem;
-}
-
-.progressListItem {
-  display: grid;
-  gap: 0.3rem;
-}
-
-.noteCard {
-  background: var(--surface-muted);
-}
-
-.noteCard span {
+.guidedSession p {
+  max-width: 48rem;
+  margin: 0;
   color: var(--text-secondary);
-  font-size: 0.85rem;
-  line-height: 1.55;
 }
 
-/* ─── Protocol ─── */
-
-.protocolList {
+.setupFlow {
   display: grid;
-  gap: 0.6rem;
+  border-top: 1px solid var(--border-subtle);
 }
 
-.protocolItem {
+.setupFlow > div {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 0.6rem;
-  align-items: start;
-}
-
-.protocolStep {
-  display: inline-flex;
+  grid-template-columns: 2.4rem minmax(0, 1fr);
+  gap: 0.75rem;
   align-items: center;
-  justify-content: center;
-  min-width: 1.75rem;
-  padding: 0.25rem 0.35rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: 5px;
-  background: var(--surface-muted);
-  color: var(--text-tertiary);
-  font-size: 0.7rem;
-  font-weight: 700;
+  padding: 0.9rem 0;
+  border-bottom: 1px solid var(--border-subtle);
 }
 
-/* ─── Quick Section ─── */
-
-.quickSection {
-  display: grid;
-  gap: 1rem;
-  padding: 1.25rem;
+.setupFlow span {
+  color: var(--accent-text);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
 }
 
-.quickGrid {
-  display: grid;
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-  gap: 0.65rem;
+.setupFlow p {
+  margin: 0;
+  color: var(--text-secondary);
 }
 
-.quickCard {
+.monthList {
   display: grid;
-  gap: 0.2rem;
-  padding: 1rem;
-  border: 1px solid var(--border-subtle);
-  border-radius: var(--radius-md);
-  background: var(--surface-muted);
+  gap: 0.9rem;
+}
+
+.month {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.month > div:first-child {
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+}
+
+.month strong {
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
+}
+
+.reviewNote {
+  padding-top: 1.1rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.textLink {
+  width: fit-content;
+  color: var(--accent-text);
+  font-size: var(--text-sm);
+  font-weight: 750;
+}
+
+.linksSection {
+  display: grid;
+  grid-template-columns: minmax(10rem, 0.45fr) minmax(0, 1.55fr);
+  gap: clamp(2rem, 5vw, 5rem);
+  padding-top: clamp(2.5rem, 5vw, 4rem);
+}
+
+.linksIntro {
+  align-self: start;
+}
+
+.linkList {
+  border-top: 1px solid var(--border-subtle);
+}
+
+.linkList a {
+  display: grid;
+  grid-template-columns: 2rem minmax(11rem, 0.7fr) minmax(15rem, 1fr) auto;
+  gap: 0.75rem;
+  align-items: center;
+  min-height: 4.5rem;
+  border-bottom: 1px solid var(--border-subtle);
   transition:
-    border-color 0.12s ease,
-    background-color 0.12s ease;
+    color 150ms ease,
+    padding 150ms ease;
 }
 
-.quickCard:nth-child(1),
-.quickCard:nth-child(4) {
-  grid-column: span 7;
+.linkList a:hover,
+.linkList a:focus-visible {
+  padding-inline: 0.35rem;
+  color: var(--accent-text);
 }
 
-.quickCard:nth-child(2),
-.quickCard:nth-child(3) {
-  grid-column: span 5;
+.linkList a > span:first-child {
+  color: var(--text-tertiary);
+  font-family: var(--font-mono), monospace;
+  font-size: var(--text-xs);
 }
 
-.quickCard:hover,
-.quickCard:focus-visible {
-  border-color: var(--border-strong);
-  background: var(--surface);
+.linkList strong {
+  font-size: var(--text-sm);
 }
 
-/* ─── Dark Mode ─── */
+.linkList small {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+}
 
-@media (prefers-color-scheme: dark) {
-  .heroMetaPill,
-  .flowItem,
-  .flowLink,
-  .specialCard,
-  .emptyCard,
-  .noteCard,
-  .quickCard {
+.linkArrow {
+  font-size: 1.1rem;
+}
+
+@media (max-width: 1020px) {
+  .hero,
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .runPanel,
+  .reviewPanel {
+    padding: 1.25rem;
+    border: 0;
+    border-radius: var(--radius-lg);
     background: var(--surface-muted);
   }
 }
 
-/* ─── Responsive ─── */
-
-@media (max-width: 980px) {
-  .hero,
-  .boardGrid {
-    grid-template-columns: 1fr;
-  }
-
-  .quickCard:nth-child(1),
-  .quickCard:nth-child(2),
-  .quickCard:nth-child(3),
-  .quickCard:nth-child(4) {
-    grid-column: span 6;
-  }
-}
-
 @media (max-width: 720px) {
+  .page {
+    padding-top: 1rem;
+  }
+
   .hero {
+    gap: 1.5rem;
+    padding-bottom: 1.75rem;
+  }
+
+  .title {
+    font-size: clamp(2rem, 10vw, 2.65rem);
+  }
+
+  .description {
+    margin-top: 0.8rem;
+  }
+
+  .metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .metric {
+    padding: 1rem 0.85rem;
+  }
+
+  .metric:first-child {
+    padding-left: 0.85rem;
+  }
+
+  .metric:nth-child(3) {
+    border-left: 0;
+  }
+
+  .metric:nth-child(n + 3) {
+    border-top: 1px solid var(--border-subtle);
+  }
+
+  .workspace {
+    gap: 2.25rem;
+    padding-block: 2.5rem;
+  }
+
+  .reviewPanel {
     padding: 1.1rem;
   }
 
-  .metricGrid,
-  .quickGrid {
-    grid-template-columns: 1fr;
+  .problemRow {
+    grid-template-columns: 1.7rem minmax(0, 1fr);
   }
 
-  .quickCard:nth-child(1),
-  .quickCard:nth-child(2),
-  .quickCard:nth-child(3),
-  .quickCard:nth-child(4) {
-    grid-column: span 1;
-  }
-
-  .flowItem {
-    grid-template-columns: auto minmax(0, 1fr);
-  }
-
-  .flowLink {
+  .completion {
     grid-column: 2;
-    justify-self: start;
+    width: fit-content;
+  }
+
+  .linksSection {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .linkList a {
+    grid-template-columns: 1.7rem minmax(0, 1fr) auto;
+    padding-block: 0.9rem;
+  }
+
+  .linkList small {
+    grid-column: 2 / -1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .progressTrack span,
+  .monthTrack span,
+  .linkList a {
+    transition: none;
   }
 }

@@ -174,9 +174,12 @@ function phaseAccent(phase: string): string {
 // Maps pattern bg color hex to a CSS accent class so badges adapt to dark mode
 function patternAccent(bg: string): string {
   const upper = bg.toUpperCase();
-  if (upper.startsWith("#E1F5") || upper.startsWith("#EAF3")) return "accent-green";
-  if (upper.startsWith("#EEEE") || upper.startsWith("#EEED")) return "accent-purple";
-  if (upper.startsWith("#FAEC") || upper.startsWith("#FCEB")) return "accent-coral";
+  if (upper.startsWith("#E1F5") || upper.startsWith("#EAF3"))
+    return "accent-green";
+  if (upper.startsWith("#EEEE") || upper.startsWith("#EEED"))
+    return "accent-purple";
+  if (upper.startsWith("#FAEC") || upper.startsWith("#FCEB"))
+    return "accent-coral";
   if (upper.startsWith("#FAEE")) return "accent-amber";
   if (upper.startsWith("#E6F1")) return "accent-blue";
   return "accent-purple";
@@ -194,13 +197,11 @@ export function RoadmapView({
     <div className="app-page page-stack">
       <section className="page-header">
         <div className="page-header-copy">
-          <p className="eyebrow">Roadmap</p>
-          <h1 className="page-title">
-            See the full interview path before you dive into today.
-          </h1>
+          <p className="eyebrow">12-week strategy</p>
+          <h1 className="page-title">Interview roadmap</h1>
           <p className="page-description">
-            Move between the 12-week overview, weekly breakdowns, pattern list,
-            system-design track, and your repeatable study routine.
+            Move between the weekly plan, core DSA patterns, system-design
+            track, and a repeatable study routine.
           </p>
         </div>
 
@@ -385,7 +386,9 @@ export function RoadmapView({
                         key={pattern.name}
                       >
                         <div className="pattern-guide-topline">
-                          <span className={`badge ${patternAccent(pattern.bg)}`}>
+                          <span
+                            className={`badge ${patternAccent(pattern.bg)}`}
+                          >
                             {pattern.tag}
                           </span>
                         </div>

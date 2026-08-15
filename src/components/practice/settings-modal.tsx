@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { useProgress } from "@/lib/progress/context";
 
@@ -48,14 +48,51 @@ function SettingsModalContent({
 }) {
   const { setStartDate } = useProgress();
   const [draftDate, setDraftDate] = useState(initialDate);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const previouslyFocused = document.activeElement as HTMLElement | null;
+    inputRef.current?.focus();
+
+    return () => previouslyFocused?.focus();
+  }, []);
+
+  const keepFocusInDialog = (event: React.KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== "Tab") {
+      return;
+    }
+
+    const focusable = dialogRef.current?.querySelectorAll<HTMLElement>(
+      'button:not([disabled]), input:not([disabled]), [href], [tabindex]:not([tabindex="-1"])',
+    );
+
+    if (!focusable?.length) {
+      return;
+    }
+
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
 
   return (
     <div className="modal-backdrop" onClick={onClose} role="presentation">
       <div
+        aria-describedby="settings-modal-description"
         aria-labelledby="settings-modal-title"
         aria-modal="true"
         className="modal-card"
         onClick={(event) => event.stopPropagation()}
+        onKeyDown={keepFocusInDialog}
+        ref={dialogRef}
         role="dialog"
       >
         <div className="modal-header">
@@ -63,7 +100,7 @@ function SettingsModalContent({
           <h2 className="section-title" id="settings-modal-title">
             Choose your Day 1 date
           </h2>
-          <p className="section-copy">
+          <p className="section-copy" id="settings-modal-description">
             We&apos;ll use it to highlight today, pace your calendar, and track
             your streak.
           </p>
@@ -77,6 +114,7 @@ function SettingsModalContent({
                 className="text-input"
                 id="start-date"
                 onChange={(event) => setDraftDate(event.target.value)}
+                ref={inputRef}
                 type="date"
                 value={draftDate}
               />

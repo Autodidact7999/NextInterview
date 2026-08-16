@@ -12,13 +12,19 @@
     "test:unit": "vitest run",
     "test:e2e": "playwright test",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "trace:generate": "node scripts/generate-trace-registry.mjs",
+    "trace:check": "node scripts/generate-trace-registry.mjs --check && vitest run src/content/visualizations/contract.test.ts",
+    "trace:test": "vitest run src/lib/visualizer src/content/visualizations"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.112.3",
-    "next": "16.2.2",
+    "motion": "^13.1.0",
+    "next": "^16.3.1",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "shiki": "^4.4.3",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
     "@playwright/test": "^1.56.1",
@@ -29,11 +35,12 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "16.2.2",
+    "eslint-config-next": "^16.3.1",
     "eslint-config-prettier": "^10.1.8",
+    "fast-check": "^4.9.0",
     "happy-dom": "^20.0.10",
     "prettier": "^3.6.2",
     "typescript": "^5",
-    "vitest": "^3.2.4"
+    "vitest": "^3.2.6"
   }
 }

@@ -89,3 +89,76 @@ test("persists updates, cycles tracker state, and respects dark mode", async ({
   );
   expect(colorScheme).toBe("dark");
 });
+
+test("searches Trace Lab and completes a contextual prediction flow", async ({
+  page,
+}) => {
+  await page.goto("/trace");
+  await expect(
+    page.getByRole("heading", { name: "See the invariant move." }),
+  ).toBeVisible();
+  await expect(page.getByText("20 interactive traces")).toBeVisible();
+  await page
+    .getByPlaceholder("Search title, LC number, or pattern")
+    .fill("two sum");
+  await page.getByRole("link", { name: /Two Sum/ }).click();
+  await expect(page).toHaveURL(/\/trace\/two-sum$/);
+  await expect(page.getByRole("heading", { name: "Two Sum" })).toBeVisible();
+  await expect(
+    page.getByRole("heading", { name: /Start with an empty lookup table/ }),
+  ).toBeVisible();
+
+  await page.goto("/practice?week=1");
+  await page
+    .locator("#day-1")
+    .getByRole("link", { name: "Visualize Two Sum" })
+    .click();
+  await expect(page).toHaveURL(/\/trace\/two-sum\?day=1$/);
+  await page.getByRole("button", { name: "Edit input" }).click();
+  await page.getByLabel("Numbers").fill("[4, 6]");
+  await page.getByLabel("Target").fill("10");
+  await page.getByRole("button", { name: "Generate trace" }).click();
+  const slider = page.getByRole("slider", { name: "Trace step" });
+  await slider.fill("3");
+  await page.getByLabel("Return the two indices").check();
+  await page.getByRole("button", { name: "Reveal reasoning" }).click();
+  await expect(page.getByText(/That’s it/)).toBeVisible();
+
+  const workspace = page.getByLabel(/Two Sum trace workspace/);
+  await workspace.focus();
+  await page.keyboard.press("End");
+  await page.getByRole("button", { name: /Mark complete & return/ }).click();
+  await expect(page).toHaveURL(/\/practice\?week=1#day-1$/);
+  await expect(
+    page.getByLabel("Mark Two Sum complete for Day 1"),
+  ).toBeChecked();
+});
+
+test("keeps Trace Lab usable on narrow screens, reload, dark mode, and reduced motion", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.emulateMedia({ colorScheme: "dark", reducedMotion: "reduce" });
+  await page.goto("/trace/valid-anagram");
+  await expect(
+    page.getByRole("heading", { name: "Valid Anagram" }),
+  ).toBeVisible();
+  await page.reload();
+  await page.getByRole("button", { name: "Java" }).click();
+  await expect(page.getByRole("region", { name: "Java source" })).toBeVisible();
+  await expect(page.getByLabel("Playback speed")).toBeVisible();
+  const hasOverflow = await page.evaluate(
+    () =>
+      document.documentElement.scrollWidth >
+      document.documentElement.clientWidth,
+  );
+  expect(hasOverflow).toBe(false);
+  expect(
+    await page.evaluate(
+      () => getComputedStyle(document.documentElement).colorScheme,
+    ),
+  ).toBe("dark");
+
+  await page.goto("/trace/not-a-real-problem");
+  await expect(page.getByText(/404|not found/i).first()).toBeVisible();
+});

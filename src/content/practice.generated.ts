@@ -107,7 +107,7 @@ export const practiceSolutions = {
   1: {
     pattern: "Hash Map",
     approach: "The brute force is O(n²) checking every pair. The key insight is that for each number, you already know what complement you need (target - num). A HashMap lets you check if that complement exists in O(1), turning this into a single-pass problem.",
-    insight: "Store each number's complement (target - nums[i]) in map. When you find it already there, return both indices.",
+    insight: "Store each number with its index. Before storing the current value, look up target - nums[i]; if it is already present, return both indices.",
     code: `Map<Integer, Integer> map = new HashMap<>();
 for (int i = 0; i < nums.length; i++) {
   int comp = target - nums[i];

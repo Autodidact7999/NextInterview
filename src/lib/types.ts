@@ -211,3 +211,26 @@ export interface MindMapEdgeDefinition {
   x2?: number;
   y2?: number;
 }
+
+export type {
+  JsonPrimitive,
+  JsonValue,
+  PreparedTraceProblem,
+  RawTraceInput,
+  ResolvedTraceCodeLine,
+  TraceCatalogItem,
+  TraceCatalogSummary,
+  TraceCheckpoint,
+  TraceCodeAnchor,
+  TraceFrame,
+  TraceInputField,
+  TraceInputIssue,
+  TraceProblemDefinition,
+  TraceProblemRuntime,
+  TraceRun,
+  TraceScene,
+  TraceSceneKind,
+  TraceSourceContext,
+  TraceVariable,
+  ValidationResult,
+} from "@/lib/visualizer/types";

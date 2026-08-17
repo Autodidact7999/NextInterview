@@ -32,18 +32,25 @@ const navItems = [
     index: "03",
   },
   {
+    href: "/trace",
+    label: "Trace Lab",
+    mobileLabel: "Trace",
+    caption: "Interactive algorithm states",
+    index: "04",
+  },
+  {
     href: "/reference",
     label: "Reference",
     mobileLabel: "Reference",
     caption: "Java and DSA recall",
-    index: "04",
+    index: "05",
   },
   {
     href: "/progress",
     label: "Progress",
     mobileLabel: "Progress",
     caption: "Momentum and history",
-    index: "05",
+    index: "06",
   },
 ] as const;
 

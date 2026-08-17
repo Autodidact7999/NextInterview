@@ -1,0 +1,798 @@
+/* Tone: quiet, state-first, exact. */
+/* Typography stays familiar, surfaces flatten into one workbench, and green marks only the live algorithm state. */
+
+.workspace {
+  display: grid;
+  gap: 0.8rem;
+  padding-bottom: 3rem;
+  outline: none;
+}
+
+.workspace:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 6px;
+  border-radius: var(--radius-lg);
+}
+
+.kicker,
+.railLabel {
+  color: var(--text-tertiary);
+  font:
+    650 0.62rem/1.2 var(--font-mono),
+    monospace;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.caseBar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.7rem 0.8rem 0.7rem 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.caseSummary {
+  min-width: 0;
+}
+
+.caseSummary > div {
+  display: flex;
+  min-width: 0;
+  gap: 1rem;
+  margin-top: 0.18rem;
+  overflow: hidden;
+}
+
+.caseSummary > div > span {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font:
+    0.68rem var(--font-mono),
+    monospace;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.caseSummary strong {
+  margin-right: 0.25rem;
+  color: var(--text-tertiary);
+  font-weight: 550;
+}
+
+.preset {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+}
+
+.preset select,
+.field input,
+.field textarea,
+.transportOptions select {
+  min-height: 2.6rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+}
+
+.preset select {
+  max-width: 12rem;
+  padding: 0.4rem 0.55rem;
+}
+
+.editButton,
+.runButton,
+.checkpoint button,
+.complete button,
+.transport button,
+.viewSwitch button {
+  min-height: 2.75rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  font-size: 0.72rem;
+  font-weight: 720;
+}
+
+.editButton {
+  padding: 0.5rem 0.8rem;
+}
+
+.inputBench {
+  padding: 1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.inputHeading {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: end;
+  margin-bottom: 0.8rem;
+}
+
+.inputHeading h2 {
+  margin: 0.18rem 0 0;
+  font-size: 0.98rem;
+}
+
+.inputHeading p {
+  max-width: 25rem;
+  margin: 0;
+  color: var(--text-tertiary);
+  font-size: 0.68rem;
+}
+
+.form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+  gap: 0.75rem;
+  align-items: end;
+}
+
+.field {
+  display: grid;
+  gap: 0.28rem;
+  color: var(--text-secondary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  font:
+    0.76rem var(--font-mono),
+    monospace;
+  resize: vertical;
+}
+
+.field small {
+  color: var(--text-tertiary);
+  font-size: 0.62rem;
+  font-weight: 400;
+}
+
+.field strong {
+  color: var(--coral-text);
+  font-size: 0.64rem;
+}
+
+.runButton {
+  padding: 0.55rem 1rem;
+  border-color: var(--accent);
+  background: var(--accent);
+  color: var(--accent-contrast);
+}
+
+.runtimeError {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.75rem;
+  align-items: center;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid color-mix(in oklch, var(--coral-text) 35%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--red-bg);
+  color: var(--red-text);
+  font-size: 0.72rem;
+}
+
+.runtimeError button {
+  min-height: 2.5rem;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-weight: 750;
+}
+
+.stepBrief {
+  padding: 1rem 1.1rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.stepProgress {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 0.35rem 1rem;
+  align-items: center;
+  color: var(--text-tertiary);
+  font:
+    0.62rem var(--font-mono),
+    monospace;
+}
+
+.stepProgress progress {
+  grid-column: 1 / -1;
+  width: 100%;
+  height: 0.24rem;
+  border: 0;
+  border-radius: 999px;
+  appearance: none;
+  overflow: hidden;
+}
+
+.stepProgress progress::-webkit-progress-bar {
+  background: var(--surface-offset);
+}
+
+.stepProgress progress::-webkit-progress-value {
+  background: var(--accent);
+}
+
+.stepProgress progress::-moz-progress-bar {
+  background: var(--accent);
+}
+
+.briefGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(16rem, 0.85fr);
+  gap: 1.2rem;
+  align-items: start;
+  margin-top: 0.85rem;
+}
+
+.briefGrid h2 {
+  margin: 0;
+  font-size: clamp(0.95rem, 1.4vw, 1.12rem);
+  font-weight: 640;
+  letter-spacing: -0.018em;
+  line-height: 1.45;
+}
+
+.changed {
+  margin: 0.38rem 0 0;
+  color: var(--text-secondary);
+  font-size: 0.76rem;
+}
+
+.changed span,
+.invariant > span {
+  margin-right: 0.3rem;
+  color: var(--accent-text);
+  font:
+    650 0.58rem var(--font-mono),
+    monospace;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.invariant {
+  padding: 0.65rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+}
+
+.invariant p {
+  margin: 0.18rem 0 0;
+  font-size: 0.74rem;
+  font-weight: 630;
+  line-height: 1.5;
+}
+
+.variableRail {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  margin-top: 0.8rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.variableRail > dl,
+.allVariables dl {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: 0;
+}
+
+.variableRail dl > div,
+.allVariables dl > div {
+  min-width: 5.5rem;
+  padding: 0.3rem 0.45rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  background: var(--surface-elevated);
+}
+
+.variableRail dt,
+.allVariables dt {
+  color: var(--text-tertiary);
+  font:
+    0.56rem var(--font-mono),
+    monospace;
+}
+
+.variableRail dd,
+.allVariables dd {
+  margin: 0.05rem 0 0;
+  font:
+    720 0.67rem var(--font-mono),
+    monospace;
+}
+
+.variableRail dd small,
+.allVariables dd small {
+  display: block;
+  color: var(--text-tertiary);
+  font-size: 0.52rem;
+  font-weight: 450;
+}
+
+.variableChanged {
+  border-color: var(--accent) !important;
+}
+
+.allVariables {
+  position: relative;
+  flex: 0 0 auto;
+}
+
+.allVariables summary {
+  min-height: 2.35rem;
+  padding: 0.48rem 0.58rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  color: var(--text-secondary);
+  cursor: pointer;
+  font-size: 0.66rem;
+  list-style: none;
+}
+
+.allVariables summary::-webkit-details-marker {
+  display: none;
+}
+
+.allVariables[open] dl {
+  position: absolute;
+  z-index: 12;
+  top: calc(100% + 0.35rem);
+  right: 0;
+  display: grid;
+  width: min(22rem, 80vw);
+  padding: 0.55rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-overlay-strong);
+  box-shadow: var(--shadow-strong);
+}
+
+.checkpoint {
+  padding: 0.9rem 1rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+}
+
+.checkpoint fieldset {
+  display: grid;
+  grid-template-columns: minmax(14rem, 1fr) auto auto;
+  gap: 0.65rem 1rem;
+  align-items: center;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.checkpoint legend {
+  float: left;
+  display: grid;
+  gap: 0.18rem;
+  width: 100%;
+  font-size: 0.82rem;
+  font-weight: 670;
+}
+
+.checkpointOptions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.checkpointOptions label {
+  min-height: 2.5rem;
+  padding: 0.48rem 0.58rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-xs);
+  font-size: 0.68rem;
+}
+
+.checkpointOptions label:has(input:checked) {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.checkpointOptions input {
+  margin-right: 0.3rem;
+  accent-color: var(--accent);
+}
+
+.checkpoint button,
+.complete button {
+  padding: 0.45rem 0.75rem;
+  color: var(--accent-text);
+}
+
+.checkpoint > fieldset > p {
+  grid-column: 1 / -1;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.74rem;
+}
+
+.feedbackPlaceholder {
+  display: none;
+}
+
+.correct strong {
+  color: var(--green-text);
+}
+
+.incorrect strong {
+  color: var(--coral-text);
+}
+
+.complete {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.85rem 1rem;
+  border: 1px solid color-mix(in oklch, var(--green-text) 32%, transparent);
+  border-radius: var(--radius-md);
+  background: var(--green-bg);
+}
+
+.complete h2 {
+  margin: 0.18rem 0 0;
+  font-size: 0.95rem;
+}
+
+.transport {
+  position: sticky;
+  top: 3.9rem;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: auto minmax(8rem, 1fr) auto;
+  gap: 0.65rem;
+  align-items: center;
+  padding: 0.5rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-overlay-strong);
+  box-shadow: 0 8px 30px oklch(0.18 0.03 205 / 0.09);
+  backdrop-filter: blur(16px);
+}
+
+.transportMoves,
+.transportOptions {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.transport button {
+  min-width: 3.4rem;
+  padding: 0.35rem 0.62rem;
+}
+
+.transport button:disabled,
+.checkpoint button:disabled {
+  cursor: default;
+  opacity: 0.42;
+}
+
+.scrubber {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+  min-width: 7rem;
+}
+
+.scrubber input {
+  width: 100%;
+  accent-color: var(--accent);
+}
+
+.scrubber span {
+  color: var(--text-tertiary);
+  font:
+    0.62rem var(--font-mono),
+    monospace;
+  white-space: nowrap;
+}
+
+.transportOptions label {
+  display: flex;
+  gap: 0.35rem;
+  align-items: center;
+  color: var(--text-tertiary);
+  font-size: 0.62rem;
+}
+
+.transportOptions select {
+  min-height: 2.75rem;
+  padding: 0.35rem 0.45rem;
+  font-size: 0.68rem;
+}
+
+.viewSwitch {
+  display: flex;
+  width: max-content;
+  gap: 0.2rem;
+  justify-self: end;
+  padding: 0.2rem;
+  border-radius: var(--radius-sm);
+  background: var(--surface-muted);
+}
+
+.viewSwitch button {
+  min-width: 5rem;
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-secondary);
+}
+
+.viewSwitch button[aria-pressed="true"] {
+  background: var(--surface-elevated);
+  color: var(--accent-text);
+  box-shadow: var(--shadow-soft);
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0.8rem;
+  align-items: start;
+}
+
+.mainGrid[data-code-open="true"] {
+  grid-template-columns: minmax(0, 8fr) minmax(21rem, 4fr);
+}
+
+.visualPanel,
+.codePanel {
+  min-width: 0;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.mainGrid[data-code-open="false"] .codePanel {
+  display: none;
+}
+
+.visualPanel > header,
+.codePanel > header {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.7rem;
+  align-items: center;
+  min-height: 2.9rem;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.visualPanel > header strong,
+.codePanel > header strong {
+  color: var(--text-tertiary);
+  font-size: 0.62rem;
+}
+
+.codePanel pre {
+  max-height: 34rem;
+  overflow: auto;
+  margin: 0;
+  padding: 0.65rem 0;
+  background: var(--surface-code);
+  color: var(--code-text);
+  font:
+    0.68rem/1.65 var(--font-mono),
+    monospace;
+  tab-size: 4;
+}
+
+.codeLine {
+  display: grid;
+  grid-template-columns: 2.7rem minmax(max-content, 1fr);
+  min-height: 1.25rem;
+  padding: 0 0.8rem 0 0;
+}
+
+.lineNumber {
+  padding-right: 0.75rem;
+  color: var(--text-tertiary);
+  text-align: right;
+  user-select: none;
+}
+
+.activeLine {
+  background: var(--accent-soft);
+  box-shadow: inset 3px 0 0 var(--accent);
+}
+
+.token {
+  color: var(--token-light);
+}
+
+.loading {
+  padding: 2rem;
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+@media (prefers-color-scheme: dark) {
+  .token {
+    color: var(--token-dark);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .workspace,
+  .workspace * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .workspace {
+    padding-bottom: calc(5.5rem + env(safe-area-inset-bottom));
+  }
+
+  .caseBar {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+
+  .caseSummary {
+    grid-column: 1 / -1;
+  }
+
+  .caseSummary > div {
+    display: grid;
+    gap: 0.12rem;
+  }
+
+  .preset {
+    min-width: 0;
+  }
+
+  .preset span {
+    display: none;
+  }
+
+  .preset select {
+    max-width: 100%;
+  }
+
+  .inputHeading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .form,
+  .briefGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .variableRail {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .variableRail > dl {
+    order: 2;
+    width: 100%;
+    flex-basis: 100%;
+  }
+
+  .allVariables {
+    margin-left: auto;
+  }
+
+  .checkpoint fieldset {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .checkpointOptions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .complete {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .transport {
+    top: 3.75rem;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 0.4rem;
+  }
+
+  .transportMoves {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .transportMoves button {
+    min-width: 0;
+  }
+
+  .scrubber {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  .transportOptions > label > span {
+    display: none;
+  }
+
+  .transportOptions button {
+    display: none;
+  }
+
+  .viewSwitch {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    width: 100%;
+  }
+
+  .viewSwitch button {
+    min-width: 0;
+  }
+
+  .mainGrid,
+  .mainGrid[data-code-open="true"] {
+    display: block;
+  }
+
+  .visualPanel,
+  .codePanel,
+  .mainGrid[data-code-open="false"] .codePanel {
+    display: none;
+  }
+
+  .visualPanel[data-active="true"],
+  .codePanel[data-active="true"] {
+    display: block;
+  }
+
+  .codePanel pre {
+    max-height: 31rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .caseBar,
+  .stepBrief,
+  .checkpoint {
+    border-radius: var(--radius-sm);
+  }
+
+  .stepBrief {
+    padding: 0.85rem;
+  }
+
+  .variableRail dl > div {
+    flex: 1 1 5.5rem;
+  }
+}

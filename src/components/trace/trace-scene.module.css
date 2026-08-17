@@ -1,0 +1,657 @@
+/* Tone: quiet, instructive, spatial. */
+/* The state change is the first thing learners notice; decoration stays neutral. */
+
+.deckShell,
+.deck {
+  min-width: 0;
+}
+
+.sceneChooser {
+  display: flex;
+  gap: 0.3rem;
+  overflow-x: auto;
+  padding: 0.65rem 0.85rem;
+  border-bottom: 1px solid var(--border-subtle);
+  scrollbar-width: none;
+}
+
+.sceneChooser::-webkit-scrollbar {
+  display: none;
+}
+
+.twoSceneChooser {
+  display: none;
+}
+
+.sceneChooser button {
+  flex: 0 0 auto;
+  min-height: 2.25rem;
+  padding: 0.35rem 0.65rem;
+  border: 1px solid transparent;
+  border-radius: var(--radius-xs);
+  background: transparent;
+  color: var(--text-tertiary);
+  font-size: 0.7rem;
+}
+
+.sceneChooser button[aria-pressed="true"] {
+  border-color: var(--border-strong);
+  background: var(--surface-elevated);
+  color: var(--text-primary);
+  font-weight: 720;
+}
+
+.deck {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.sceneWrap {
+  min-width: 0;
+  border-right: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.sceneWrap:nth-child(2n) {
+  border-right: 0;
+}
+
+.deck[data-count="1"] {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.deck[data-count="1"] .sceneWrap {
+  border: 0;
+}
+
+.deck[data-count="3"] .sceneWrap[data-focus="true"] {
+  grid-column: 1 / -1;
+  order: -1;
+  border-right: 0;
+}
+
+.scene {
+  min-width: 0;
+  height: 100%;
+  padding: clamp(0.9rem, 2vw, 1.25rem);
+  background: var(--surface);
+}
+
+.header {
+  margin-bottom: 1rem;
+}
+
+.header h3 {
+  margin: 0;
+  font-size: 0.94rem;
+  letter-spacing: -0.015em;
+}
+
+.header p {
+  max-width: 46rem;
+  margin: 0.2rem 0 0;
+  color: var(--text-tertiary);
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+.rangeSummary {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin: -0.3rem 0 0.7rem;
+}
+
+.rangeSummary span {
+  padding: 0.18rem 0.42rem;
+  border-bottom: 2px solid var(--accent);
+  color: var(--text-secondary);
+  font:
+    0.62rem var(--font-mono),
+    monospace;
+}
+
+.sequence {
+  display: flex;
+  gap: 0.45rem;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding: 0.3rem 0.15rem 0.45rem;
+  scroll-padding-inline: 1rem;
+}
+
+.sequenceSlot,
+.barSlot {
+  display: grid;
+  min-width: 3.15rem;
+  justify-items: center;
+  gap: 0.24rem;
+}
+
+.sequenceSlot[data-in-range="true"] .index {
+  color: var(--accent-text);
+  box-shadow: inset 0 -2px 0 var(--accent);
+}
+
+.pointers {
+  display: inline-flex;
+  min-height: 1.15rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.2rem;
+  color: var(--accent-text);
+  font:
+    650 0.58rem/1.15 var(--font-mono),
+    monospace;
+  white-space: nowrap;
+}
+
+.pointers > span {
+  padding: 0.12rem 0.28rem;
+  border-radius: 999px;
+  background: var(--accent-soft);
+}
+
+.cell {
+  display: grid;
+  min-width: 3.1rem;
+  min-height: 3.1rem;
+  place-items: center;
+  padding: 0.35rem;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-soft);
+}
+
+.value {
+  font:
+    720 0.9rem/1 var(--font-mono),
+    monospace;
+}
+
+.index,
+.note,
+.edgeLabel {
+  color: var(--text-tertiary);
+  font:
+    0.58rem/1.25 var(--font-mono),
+    monospace;
+}
+
+.index {
+  padding-bottom: 0.15rem;
+}
+
+.note {
+  max-width: 6.5rem;
+  text-align: center;
+}
+
+.mapGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+  gap: 0 1rem;
+  margin: 0;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.mapEntry {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 0.7rem;
+  align-items: center;
+  min-height: 2.65rem;
+  padding: 0.45rem 0.15rem;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.mapEntry dt {
+  overflow: hidden;
+  color: var(--text-secondary);
+  font:
+    0.68rem var(--font-mono),
+    monospace;
+  text-overflow: ellipsis;
+}
+
+.mapEntry dd {
+  margin: 0;
+  font:
+    720 0.72rem var(--font-mono),
+    monospace;
+}
+
+.valueList {
+  display: flex;
+  max-width: 16rem;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 0.22rem;
+}
+
+.valueList > span {
+  padding: 0.12rem 0.32rem;
+  border-radius: var(--radius-xs);
+  background: var(--surface-muted);
+  font-size: 0.62rem;
+}
+
+.empty {
+  margin: 0;
+  padding: 1.25rem;
+  border: 1px dashed var(--border-strong);
+  border-radius: var(--radius-sm);
+  color: var(--text-tertiary);
+  text-align: center;
+}
+
+.stackWrap {
+  max-width: 16rem;
+  margin: auto;
+}
+
+.stackLabel {
+  display: block;
+  margin-bottom: 0.35rem;
+  color: var(--accent-text);
+  font:
+    0.62rem var(--font-mono),
+    monospace;
+  text-align: center;
+}
+
+.stack {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  border-right: 2px solid var(--border-strong);
+  border-bottom: 2px solid var(--border-strong);
+  border-left: 2px solid var(--border-strong);
+  list-style: none;
+}
+
+.stackItem {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-top: 1px solid var(--border-subtle);
+  background: var(--surface-elevated);
+  font:
+    720 0.78rem var(--font-mono),
+    monospace;
+}
+
+.stackItem small {
+  color: var(--text-tertiary);
+  font-size: 0.56rem;
+  font-weight: 500;
+}
+
+.graphViewport {
+  max-width: 100%;
+  overflow-x: auto;
+  scroll-padding-inline: 1rem;
+}
+
+.linkedGraph,
+.treeGraph {
+  max-width: none;
+}
+
+.linkEdge,
+.treeEdge {
+  fill: none;
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.cycleEdge {
+  stroke: var(--coral-text);
+  stroke-dasharray: 5 4;
+}
+
+.arrowHead {
+  fill: var(--text-tertiary);
+}
+
+.linkNodeGroup circle,
+.treeNodeGroup circle {
+  fill: var(--surface-elevated);
+  stroke: var(--border-strong);
+  stroke-width: 1.5;
+}
+
+.nodeValue {
+  fill: var(--text-primary);
+  font:
+    720 0.78rem var(--font-mono),
+    monospace;
+  text-anchor: middle;
+}
+
+.headLabel,
+.pointerLabel,
+.nullLabel,
+.nodeMeta,
+.nodeBadge {
+  fill: var(--text-tertiary);
+  font:
+    0.55rem var(--font-mono),
+    monospace;
+  text-anchor: middle;
+}
+
+.headLabel,
+.pointerLabel {
+  fill: var(--accent-text);
+  font-weight: 700;
+}
+
+.nodeBadge {
+  fill: var(--accent-text);
+  font-weight: 700;
+}
+
+.nullPointers {
+  margin: 0.25rem 0 0;
+  color: var(--text-tertiary);
+  font:
+    0.6rem var(--font-mono),
+    monospace;
+  text-align: center;
+}
+
+.tree {
+  min-width: 0;
+}
+
+.treeEdge.roleCurrent,
+.treeEdge.roleCandidate,
+.treeEdge.roleAccepted,
+.treeEdge.roleRejected,
+.treeEdge.roleVisited {
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+.edgeLabel {
+  fill: var(--text-tertiary);
+  text-anchor: middle;
+}
+
+.rangeLabel {
+  display: flex;
+  gap: 0.45rem;
+  align-items: baseline;
+  margin: 0 0 0.65rem;
+  color: var(--text-secondary);
+  font-size: 0.7rem;
+}
+
+.rangeLabel span,
+.rangeLabel small {
+  color: var(--text-tertiary);
+  font:
+    0.56rem var(--font-mono),
+    monospace;
+  text-transform: uppercase;
+}
+
+.bars {
+  position: relative;
+  display: flex;
+  height: 14rem;
+  align-items: stretch;
+  gap: 0.35rem;
+  overflow-x: auto;
+  padding: 0.3rem 0.25rem 0;
+}
+
+.barSlot {
+  position: relative;
+  z-index: 2;
+  flex: 1 0 2.55rem;
+  align-self: stretch;
+  grid-template-rows: 1.15rem 1fr auto auto;
+  min-width: 2.55rem;
+}
+
+.barTrack {
+  position: relative;
+  display: flex;
+  width: 1.7rem;
+  align-items: flex-end;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background: var(--surface-offset);
+  overflow: hidden;
+}
+
+.barFill {
+  display: block;
+  width: 100%;
+  height: var(--bar-height);
+  min-height: 0.22rem;
+  background: var(--text-tertiary);
+  transition: height 160ms ease;
+}
+
+.barValue {
+  font:
+    680 0.63rem var(--font-mono),
+    monospace;
+}
+
+.barSlot[data-in-range="false"] .barTrack,
+.orderedSlot[data-in-range="false"] {
+  opacity: 0.62;
+}
+
+.barsSigned .barTrack {
+  overflow: visible;
+  align-items: center;
+  background: transparent;
+}
+
+.barsSigned .barFill {
+  position: absolute;
+  bottom: 50%;
+  height: calc(var(--bar-height) / 2);
+  border-radius: 0.2rem 0.2rem 0 0;
+}
+
+.barsSigned .negativeBar {
+  top: 50%;
+  bottom: auto;
+  border-radius: 0 0 0.2rem 0.2rem;
+  background: var(--coral-text);
+}
+
+.zeroBaseline {
+  position: absolute;
+  z-index: 1;
+  top: calc(50% - 0.1rem);
+  right: 0;
+  left: 0;
+  height: 1px;
+  background: var(--border-strong);
+}
+
+.containerArea {
+  position: absolute;
+  z-index: 1;
+  bottom: 2.55rem;
+  left: var(--area-left);
+  width: var(--area-width);
+  height: calc(var(--area-height) * 0.78);
+  border-top: 2px solid var(--blue-text);
+  background: color-mix(in oklch, var(--blue-bg) 72%, transparent);
+}
+
+.orderedRange {
+  display: flex;
+  gap: 0.4rem;
+  overflow-x: auto;
+  padding: 0.35rem 0.1rem 0.55rem;
+}
+
+.orderedSlot {
+  display: grid;
+  min-width: 4rem;
+  min-height: 4.8rem;
+  place-items: center;
+  padding: 0.35rem;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-sm);
+  background: var(--surface-elevated);
+}
+
+.orderedSlot[data-in-range="true"] {
+  border-bottom: 3px solid var(--accent);
+}
+
+.orderedSlot strong {
+  font:
+    720 0.82rem var(--font-mono),
+    monospace;
+}
+
+.orderedSlot small {
+  color: var(--text-tertiary);
+  font:
+    0.55rem var(--font-mono),
+    monospace;
+}
+
+.roleCurrent {
+  border-color: var(--accent) !important;
+  outline: 2px solid var(--accent-soft);
+  background: var(--accent-soft) !important;
+}
+
+.roleCandidate {
+  border-color: var(--amber-text) !important;
+  border-style: dashed !important;
+  background: var(--amber-bg) !important;
+}
+
+.roleAccepted {
+  border-color: var(--green-text) !important;
+  background: var(--green-bg) !important;
+}
+
+.roleRejected {
+  border-color: var(--coral-text) !important;
+  background: var(--coral-bg) !important;
+  text-decoration: line-through;
+}
+
+.roleVisited {
+  border-color: var(--blue-text) !important;
+  background: var(--blue-bg) !important;
+}
+
+.roleDimmed {
+  color: var(--text-tertiary);
+  background: var(--surface-muted) !important;
+}
+
+.linkNodeGroup.roleCurrent circle,
+.treeNodeGroup.roleCurrent circle,
+.linkNodeGroup.roleCandidate circle,
+.treeNodeGroup.roleCandidate circle,
+.linkNodeGroup.roleAccepted circle,
+.treeNodeGroup.roleAccepted circle,
+.linkNodeGroup.roleRejected circle,
+.treeNodeGroup.roleRejected circle,
+.linkNodeGroup.roleVisited circle,
+.treeNodeGroup.roleVisited circle {
+  fill: var(--accent-soft);
+  stroke: var(--accent);
+  stroke-width: 2.5;
+}
+
+.linkNodeGroup.roleRejected circle,
+.treeNodeGroup.roleRejected circle {
+  fill: var(--coral-bg);
+  stroke: var(--coral-text);
+  stroke-dasharray: 4 3;
+}
+
+.linkNodeGroup.roleAccepted circle,
+.treeNodeGroup.roleAccepted circle {
+  fill: var(--green-bg);
+  stroke: var(--green-text);
+}
+
+.barSlot.roleCurrent .barFill,
+.barSlot.roleCandidate .barFill {
+  background: var(--accent);
+}
+
+.barSlot.roleAccepted .barFill {
+  background: var(--green);
+}
+
+.barSlot.roleRejected .barFill {
+  background: var(--coral);
+}
+
+.barSlot.roleCurrent,
+.barSlot.roleCandidate,
+.barSlot.roleAccepted,
+.barSlot.roleRejected,
+.barSlot.roleVisited,
+.barSlot.roleDimmed {
+  border: 0 !important;
+  outline: 0;
+  background: transparent !important;
+  text-decoration: none;
+}
+
+.reduced,
+.reduced * {
+  scroll-behavior: auto !important;
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scene,
+  .scene * {
+    scroll-behavior: auto !important;
+    transition: none !important;
+  }
+}
+
+@media (max-width: 900px) {
+  .twoSceneChooser {
+    display: flex;
+  }
+
+  .sceneChooser button {
+    min-height: 2.75rem;
+  }
+
+  .deck {
+    display: block;
+  }
+
+  .sceneWrap {
+    display: none;
+    border: 0;
+  }
+
+  .sceneWrap[data-selected="true"] {
+    display: block;
+  }
+
+  .scene {
+    padding: 0.95rem;
+  }
+
+  .bars {
+    height: 11rem;
+  }
+}

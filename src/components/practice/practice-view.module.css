@@ -256,6 +256,7 @@
 }
 
 .dayCard {
+  scroll-margin-top: 5rem;
   display: grid;
   grid-template-columns: 7.5rem minmax(0, 1fr);
   min-width: 0;

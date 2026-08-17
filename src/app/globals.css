@@ -217,6 +217,25 @@ strong {
   max-width: 1000px;
 }
 
+.trace-page {
+  max-width: 1400px;
+}
+
+.trace-page > .page-header {
+  align-items: center;
+  padding: 0.2rem 0 1rem;
+}
+
+.trace-page .page-title {
+  font-size: clamp(1.8rem, 3vw, 2.55rem);
+}
+
+.trace-page .page-description {
+  margin-top: 0.55rem;
+  font-size: var(--text-sm);
+  line-height: 1.5;
+}
+
 .page-stack {
   display: grid;
   gap: clamp(1rem, 2vw, 1.5rem);

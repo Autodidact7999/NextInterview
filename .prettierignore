@@ -3,6 +3,9 @@ node_modules
 coverage
 playwright-report
 test-results
+.claude
+CLAUDE.md
 src/content/*.generated.ts
+src/content/reference.ts
 3month_dsa_system_design_plan.html
 java_dsa_reference.html

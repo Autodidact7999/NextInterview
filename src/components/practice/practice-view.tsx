@@ -13,6 +13,7 @@ import {
   practiceWeekFilters,
   practiceWeekMeta,
 } from "@/content/practice";
+import { traceSlugByLc } from "@/content/visualizations/links.generated";
 import { useProgress } from "@/lib/progress/context";
 import {
   computePracticeStats,
@@ -305,7 +306,11 @@ export function PracticeView({
                 : styles.sessionPillPractice;
 
             return (
-              <article className={dayCardClasses} key={day.day}>
+              <article
+                className={dayCardClasses}
+                id={`day-${day.day}`}
+                key={day.day}
+              >
                 <div className={styles.dayRail}>
                   <span
                     className={styles.weekBadge}
@@ -383,6 +388,7 @@ export function PracticeView({
                         );
                         const open = openSolutions[problemKey] ?? false;
                         const solution = practiceSolutions[problem.lc];
+                        const traceSlug = traceSlugByLc[problem.lc];
                         const completed = Boolean(
                           progress.completedProblems[problemKey],
                         );
@@ -401,7 +407,7 @@ export function PracticeView({
                                 <div className={styles.problemTitleRow}>
                                   <Link
                                     className={styles.problemLink}
-                                    href={`https://leetcode.com/problems/${slugifyLeetCodeTitle(problem.title)}/`}
+                                    href={`https://leetcode.com/problems/${traceSlug ?? slugifyLeetCodeTitle(problem.title)}/`}
                                     rel="noreferrer"
                                     target="_blank"
                                   >
@@ -424,6 +430,15 @@ export function PracticeView({
                               </div>
 
                               <div className={styles.problemControls}>
+                                {traceSlug ? (
+                                  <Link
+                                    aria-label={`Visualize ${problem.title}`}
+                                    className={styles.actionButton}
+                                    href={`/trace/${traceSlug}?day=${day.day}`}
+                                  >
+                                    Visualize
+                                  </Link>
+                                ) : null}
                                 <button
                                   className={`${styles.actionButton} ${
                                     open ? styles.actionButtonActive : ""
